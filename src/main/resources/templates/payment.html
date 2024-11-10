@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/payment.css">
+</head>
+<body>
+
+    <div class="row d-flex justify-content-center align-items-center">
+        <!-- Bank form on the left-->
+        <div class="col-md-5 d-flex justify-content-center align-items-center">
+            <div class="card_" style="border-radius: 15px;">
+                <div class="card-body p-4">
+                    <form>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="form-group">
+                                <input type="text" id="typeText" class="form-control" placeholder=" " minlength="19" maxlength="19" />
+                                <label for="typeText">Card Number</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <input type="text" id="typeName" class="form-control" placeholder=" " />
+                            <label for="typeName">Cardholder's Name</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center pb-2">
+                            <div class="form-group">
+                                <input type="text" id="typeExp" class="form-control" placeholder=" " minlength="7" maxlength="7" />
+                                <label for="typeExp">Expiration</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="typeText2" class="form-control" placeholder=" " minlength="3" maxlength="3" />
+                                <label for="typeText2">Cvv</label>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-info btn-lg btn-rounded">
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Card display on the right-->
+        <div class="col-md-5 d-flex justify-content-center align-items-center">
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="front">
+                            <img src="/img/map.png" class="map-img">
+                            <div class="row_">
+                                <img src="/img/chip.png" width="60px">
+                                <img src="/img/visa.png" width="80px">
+                            </div>
+                            <div class="row_ card-no">
+                                <p id="cardNumber">____ ____ ____ ____</p>
+
+                            </div>
+                            <div class="row_ card-holder">
+                                <p id="cardHolder">CARD HOLDER</p>
+                                <p id="validThru">VALID THRU</p>
+                            </div>
+                            <div class="row_ name">
+                                <p id="holderName"></p>
+                                <p id="expiration">__/__</p>
+                            </div>
+                        </div>
+
+                        <div class="back">
+                            <img src="/img/map.png" class="map-img">
+                            <div class="bar"></div>
+                            <p class="required">SIGNATURE OF THE HOLDER REQUIRED</p>
+                            <div class="row_ card-cvv">
+                                <div>
+                                    <img src="/img/pattern.png" class="pattern">
+                                </div>
+                                <p id="cvv">___</p>
+                            </div>
+                            <div class="row_ important">
+                                this card is personal and inaccessible
+                            </div>
+                            <div class="row_ card-text">
+                                Banque d'Argent Éternel 10, Rue des Lumières,
+                                Quartier des Saphirs,
+                                Pau 64000, France
+                            </div>
+                            <div class="row_ signature">
+                                <img src="/img/visa.png" width="80px">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/registrationCard.js"></script>
+</body>
+</html>

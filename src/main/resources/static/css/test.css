@@ -1,0 +1,132 @@
+body {
+    font-family: var(--mdb-font-roboto);
+    line-height: 1.6;
+    color: #4f4f4f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Assurez que le corps prend toute la hauteur de l'écran */
+    margin: 0; /* Supprime les marges par défaut */
+    background-color: #faf5f5;
+}
+
+.row {
+    padding: 10px 0px;
+    box-shadow: -5px 11px 7px -3px #858383;
+    flex-wrap: wrap;
+    border-radius: 15px;
+    width:1000px;
+    background-color: white;
+}
+
+
+/* Agrandir le logo sans déplacer le formulaire */
+.logo-container .logo {
+    width: 180px; /* Augmenter la taille du logo */
+    max-width: 100%; /* Assurer que le logo ne dépasse pas du conteneur */
+    height: auto; /* Maintenir les proportions */
+}
+
+
+
+/*form */
+/*.card_{*/
+/*    box-shadow: 0px 0px 20px 5px #edebeb !important;*/
+/*}*/
+
+/* Structure de base des champs */
+.form-group {
+    position: relative;
+    margin-bottom: 2.1rem;
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+/* Style des champs de saisie */
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 12px 12px 12px 15px;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+    background-color: #fff;
+}
+
+/* Focus sur les champs de saisie */
+.form-control:focus {
+    border-color: #007bff;
+}
+
+/* Positionnement des labels */
+.info {
+    position: absolute;
+    top: 14px;
+    left: 15px;
+    font-size: 14px;
+    color: #999;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+label{
+    font-size: 14px;
+}
+
+/* Effet flottant du label lorsque l'input est focus ou non vide */
+.form-control:focus + label,
+.form-control:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 15px;
+    font-size: 12px;
+    color: #007bff;
+    background-color: #fff;
+    padding: 0 5px;
+}
+
+/* Eviter que le label ne remonte si le champ est vide */
+.form-control:placeholder-shown + label {
+    top: 14px;
+    font-size: 14px;
+    color: #999;
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Style spécifique pour les icônes et bouton */
+
+
+
+.eye-icon {
+    position: absolute;
+    right: 10px; /* Place l'icône à l'extrémité droite du champ */
+    top: 50%; /* Centre l'icône verticalement */
+    transform: translateY(-50%); /* Aligne parfaitement au centre vertical */
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1.2rem; /* Ajustez la taille de l'icône si nécessaire */
+}
+
+.display {
+    font-size: 14px;
+}
+
+.display.active{
+    color: #256ee7;; /* Change la couleur en bleu */
+}
+
+.text-danger {
+    font-size: 12px;
+    position: absolute;
+    top: 100%;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+p {
+    margin-top:0;
+    margin-bottom:1rem;
+    font-size: 14px;
+}

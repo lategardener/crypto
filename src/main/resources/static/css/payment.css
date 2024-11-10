@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&display=swap');
+
+*{
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+/* Center the row container within the viewport */
+.row {
+    height: 100vh;
+}
+
+/*form */
+.card_{
+    box-shadow: 0px 0px 20px 5px #edebeb !important;
+}
+
+/* Structure de base des champs */
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+/* Style des champs de saisie */
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 12px 12px 12px 15px;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    background-color: #fff;
+}
+
+/* Focus sur les champs de saisie */
+.form-control:focus {
+    border-color: #007bff;
+}
+
+/* Positionnement des labels */
+label {
+    position: absolute;
+    top: 14px;
+    left: 15px;
+    font-size: 16px;
+    color: #999;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+/* Effet flottant du label lorsque l'input est focus ou non vide */
+.form-control:focus + label,
+.form-control:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 15px;
+    font-size: 12px;
+    color: #007bff;
+    background-color: #fff;
+    padding: 0 5px;
+}
+
+/* Eviter que le label ne remonte si le champ est vide */
+.form-control:placeholder-shown + label {
+    top: 14px;
+    font-size: 16px;
+    color: #999;
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Style spécifique pour les icônes et bouton */
+
+
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #007bff;
+    border-radius: 5px;
+    color: white;
+    border: none;
+}
+
+
+
+
+/*card */
+
+
+.card{
+    width: 500px;
+    height: 300px;
+    color: white;
+    cursor: pointer;
+    perspective: 1000px;
+    box-shadow: none !important;
+}
+
+.card-inner{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+}
+
+.front, .back{
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(45deg, #0045c7, #ff2c7d);
+    position : absolute;
+    top: 0;
+    left: 0;
+    padding: 20px 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 1;
+    backface-visibility: hidden; !important;
+}
+
+.row_{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.map-img{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left:0;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.card-no{
+    font-size: 35px;
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-holder{
+    font-size: 12px;
+    /*margin-top: 40px;*/
+}
+
+.name{
+    font-size: 22px;
+    /*margin-top: 20px;*/
+}
+
+.bar{
+    background: #222;
+    margin-left: -30px;
+    margin-right: -30px;
+    height: 40px;
+    /*margin-top: 10px;*/
+}
+
+.card-cvv{
+    margin-top: 30px;
+}
+
+.card-cvv div{
+    flex:1;
+}
+
+.card-cvv img{
+    width: 100%;
+    display: block;
+    line-height: 0;
+}
+
+.card-cvv p {
+    background: white;
+    color: black;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+    margin-top: -22px;
+}
+
+.card-text {
+    margin-top: 10px;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.important{
+    font-size: 11px;
+}
+
+.signature{
+    /*margin-top: 30px;*/
+}
+
+.back{
+    transform: rotateY(180deg);
+}
+
+.card:hover .card-inner{
+    transform: rotateY(180deg);
+}
+
+.card-inner.flipped {
+    transform: rotateY(180deg);
+}
+
+
+.required{
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.pattern{
+    margin-top: -40px;
+}
+

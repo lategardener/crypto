@@ -175,4 +175,14 @@ $(document).ready(function() {
             this.submit();
         }
     });
+
+//     Generate random sign up image
+    // Générer un nombre aléatoire
+    var randomImageIndex = Math.floor(Math.random() * 11); // Math.random() génère un nombre entre 0 et 1, *9 le rend entre 0 et 8
+
+    // Sélectionnez l'élément image
+    var imgElement = document.getElementById("userImage");
+
+    // Changez le `src` de l'image en fonction du nombre aléatoire
+    imgElement.src = "/img/img_" + randomImageIndex + ".png"; // Charge l'image aléatoire
 });

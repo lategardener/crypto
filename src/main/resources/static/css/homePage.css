@@ -1,0 +1,117 @@
+html, body {
+    width: 100%; /* S'assure que la largeur de la page est confinée à 100% */
+    overflow-x: hidden; /* Empêche le défilement horizontal */
+}
+
+* {
+    box-sizing: border-box; /* Assure que padding et border n'ajoutent pas à la largeur de l'élément */
+}
+
+
+.navbar {
+    box-shadow: none !important;
+}
+
+/*Customize the headline and the paragraph*/
+h1, h2
+{
+    margin-top: 115px;
+    margin-bottom: 30px;
+    font-family: Biennale, sans-serif;
+    color: black;
+    font-size: 70px;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+h2{
+    margin-top: 100px;
+    font-size: 40px;
+}
+
+h5{
+    margin-top: 10px;
+    color: black;
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-img {
+    border-radius: 10px; /* Ajoute des coins arrondis */
+    width: 40%; /* Assure que l'image est bien responsive */
+    transition: transform 0.5s ease, box-shadow 0.5s ease; /* Transition fluide */
+}
+
+.custom-img:hover {
+    transform: translateY(-10px); /* Fait remonter l'image */
+    /*box-shadow: 0 0 15px 10px rgba(255, 0, 0, 0.5); !* Ombre lumineuse autour de l'image *!*/
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap; /* S'assure que les colonnes se répartissent correctement */
+}
+
+.col-md-4 {
+    display: flex;
+    flex-direction: column; /* Aligne les éléments verticalement */
+    justify-content: space-between; /* Assure que l'image et le texte sont espacés de manière égale */
+    align-items: center; /* Centre les éléments horizontalement */
+}
+
+
+.crypto-logo {
+    height: 40px;  /* Logo plus petit */
+    width: auto;
+    object-fit: contain;
+    margin-right: 10px;  /* Espacement entre le logo et les autres informations */
+}
+
+.crypto-info {
+    display: inline-block; /* Utilisation de l'affichage en ligne pour les infos */
+    margin-right: 15px;  /* Espacement entre le nom/symbole et le prix */
+}
+
+.crypto-symbol {
+    font-weight: bold;  /* Mettre le symbole en gras */
+    font-size: 1.1em;  /* Taille de police plus grande pour le symbole */
+}
+
+.crypto-name {
+    font-size: 1em;
+    color: #333;
+}
+
+.crypto-price, .crypto-change {
+    font-size: 1em;
+    margin: 0;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;  /* Réduction des marges internes */
+}
+
+.card {
+    border: 1px solid #ddd; /* Bordure légère autour de chaque card */
+    border-radius: 8px; /* Coins arrondis pour un look plus moderne */
+    padding: 10px; /* Padding autour de l'intérieur de la card */
+    background-color: #f9f9f9;
+    margin-bottom: 15px; /* Espacement entre chaque crypto */
+}
+
+.card-body .crypto-price {
+    color: green;
+}
+
+.card-body .crypto-change {
+    color: #888; /* Couleur neutre pour la variation */
+}
+

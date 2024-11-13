@@ -18,6 +18,10 @@ public class Cryptocurrency {
     private Double marketCap;
     private LocalDate createdAt;
 
+    private Double priceChangePercent;
+
+
+
     @OneToMany(mappedBy = "cryptocurrency", cascade = CascadeType.ALL)
     private Set<CryptoHolding> cryptoHoldings = new HashSet<>();
 
@@ -67,5 +71,21 @@ public class Cryptocurrency {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Double getPriceChangePercent() {
+        return priceChangePercent;
+    }
+
+    public void setPriceChangePercent(Double priceChangePercent) {
+        this.priceChangePercent = priceChangePercent;
+    }
+
+    public Set<CryptoHolding> getCryptoHoldings() {
+        return cryptoHoldings;
+    }
+
+    public void setCryptoHoldings(Set<CryptoHolding> cryptoHoldings) {
+        this.cryptoHoldings = cryptoHoldings;
     }
 }

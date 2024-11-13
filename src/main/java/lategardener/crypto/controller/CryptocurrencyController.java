@@ -3,11 +3,15 @@ package lategardener.crypto.controller;
 import lategardener.crypto.model.Cryptocurrency;
 import lategardener.crypto.service.CryptocurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
 @RequestMapping("/crypto")
@@ -16,6 +20,7 @@ public class CryptocurrencyController {
     @Autowired
     CryptocurrencyService cryptocurrencyService;
 
+//    REST API
     @GetMapping(path = "/api/cryptos/getAll")
     @ResponseBody
     public List<Cryptocurrency> getAllCryptocurrencies(){
@@ -34,18 +39,42 @@ public class CryptocurrencyController {
         return cryptocurrencyService.getCryptoDetails(symbol);
     }
 
+
     @PostMapping(path = "/api/cryptos/add")
     @ResponseBody
     public void addCryptocurrency(@RequestParam(required = true) String symbol){
         cryptocurrencyService.addCrypto(symbol);
     }
 
-    @PutMapping(path = "/api/cryptos/updatePrice")
+
+    @PutMapping(path = "/updatePrice")
     @ResponseBody
-    public void updateCryptocurrencyPrice(){
+    public ResponseEntity<Void> updateCryptocurrencyPrice(){
         List<Cryptocurrency> allCryptos = cryptocurrencyService.getAllCryptoccurencies();
         for (Cryptocurrency crypto : allCryptos){
             cryptocurrencyService.updateCryptoPrice(crypto.getSymbol());
         }
+        return ResponseEntity.ok().build(); // Retourne un statut 200 sans contenu
+    }
+
+    @PutMapping ("/updatePriceChangePercent")
+    @ResponseBody
+    public ResponseEntity<Void> updatePriceChangePercent() {
+        cryptocurrencyService.updatePriceChangePercent();
+        return ResponseEntity.ok().build(); // Retourne un statut 200 sans contenu
+    }
+
+
+    //    API
+    @GetMapping("/showCryptos")
+    public String showCryptos(Model model) {
+        // Récupérer toutes les cryptomonnaies de la base de données
+        List<Cryptocurrency> cryptocurrencies = cryptocurrencyService.getAllCryptoccurencies();
+
+        // Ajouter les cryptomonnaies au modèle Thymeleaf
+        model.addAttribute("cryptos", cryptocurrencies);
+
+        // Retourner la vue avec les cryptomonnaies
+        return "homePage"; // Assurez-vous que cette page est ton fichier homePage.html
     }
 }

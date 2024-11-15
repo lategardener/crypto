@@ -12,6 +12,11 @@ html, body {
     box-shadow: none !important;
 }
 
+.item1{
+    margin-left: 25px;
+    margin-right: 1300px;
+}
+
 /*Customize the headline and the paragraph*/
 h1, h2
 {
@@ -34,6 +39,7 @@ h5{
     color: black;
     font-weight: 400;
     line-height: 1.1;
+    font-size: 1.10rem;
 }
 
 .image-container {
@@ -113,5 +119,10 @@ h5{
 
 .card-body .crypto-change {
     color: #888; /* Couleur neutre pour la variation */
+}
+
+.start{
+    width: 170px;
+    font-size: 13px;
 }
 

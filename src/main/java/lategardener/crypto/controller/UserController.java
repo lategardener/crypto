@@ -1,16 +1,13 @@
 package lategardener.crypto.controller;
 
-import jakarta.validation.Valid;
 import lategardener.crypto.model.User;
 import lategardener.crypto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
@@ -45,7 +42,7 @@ public class UserController {
     @GetMapping(path = "/test")
     public String testy(Model model){
         model.addAttribute("user", new User());
-        return "test";
+        return "signUp";
     }
 
 

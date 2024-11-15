@@ -1,73 +1,81 @@
 $(document).ready(function() {
-    // Masquer les messages d'erreur au départ
     $('#submitButton').prop('disabled', true);
 
     let typingTimer;
-    const typingDelay = 1200; // Délai en millisecondes (1.2 secondes)
+    const typingDelay = 1200;
 
-    // Fonction pour valider les champs du formulaire
     function validateForm() {
         var lastname = $('#floatingLastname').val().trim();
         var firstname = $('#floatingFirstName').val().trim();
         var email = $('#floatingEmail').val().trim();
         var password = $('#floatingPassword').val().trim();
 
-        var isFirstNameValid = validateFirstname(firstname);
-        var isLastNameValid = validateLastname(lastname);
+        var isLastnameValid = validateLastname(lastname);
+        var isFirstnameValid = validateFirstname(firstname);
         var isEmailValid = validateEmail(email);
         var emailExists = $('#emailError').text() === "";
         var isPasswordValid = validatePassword(password);
         var isConditionChecked = $('#condition').is(':checked');
 
-        // Activer/désactiver le bouton instantanément
-        $('#submitButton').prop('disabled', !(isEmailValid && emailExists &&
-            isPasswordValid && isConditionChecked &&
-            isFirstNameValid && isLastNameValid));
+        $('#submitButton').prop('disabled', !(isLastnameValid && isFirstnameValid && isEmailValid && emailExists && isPasswordValid && isConditionChecked));
     }
 
-    // Validation du prénom avec interdiction des chiffres et mise en forme
-    function validateFirstname(firstname) {
-        // Retirer les chiffres et formater la première lettre en majuscule
-        firstname = firstname.replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ\s'-]/g, '');
-        firstname = firstname.charAt(0).toUpperCase() + firstname.slice(1).toLowerCase();
-        $('#floatingFirstName').val(firstname);
-
-        if (firstname === "") {
-            setTimeout(() => $('#firstnameError').text("Le prénom est requis").show(), typingDelay);
-            return false;
-        }
-        if (firstname.length < 4 || firstname.length > 12) {
-            setTimeout(() => $('#firstnameError').text("Doit contenir entre 4 et 12 caractères").show(), typingDelay);
-            return false;
-        } else {
-            $('#firstnameError').text("").show();
-            return true;
-        }
-    }
-
-    // Validation du nom avec interdiction des chiffres et mise en majuscules
+    // Validation et transformation du Lastname en majuscule en temps réel
     function validateLastname(lastname) {
-        // Retirer les chiffres et forcer en majuscules
-        lastname = lastname.replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ\s'-]/g, '').toUpperCase();
-        $('#floatingLastname').val(lastname);
+        lastname = lastname.replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ\s'-]/g, '').toUpperCase(); // Conversion directe en majuscule à chaque frappe
+        $('#floatingLastname').val(lastname); // Mettre à jour la valeur du champ
 
         if (lastname === "") {
-            setTimeout(() => $('#lastnameError').text("Le nom est requis").show(), typingDelay);
+            $('#lastnameError').text("Le nom est requis").show();
             return false;
         }
-        if (lastname.length < 4 || lastname.length > 12) {
-            setTimeout(() => $('#lastnameError').text("Doit contenir entre 4 et 12 caractères").show(), typingDelay);
+        if (lastname.length < 3 || lastname.length > 15) {
+            $('#lastnameError').text("Doit contenir entre 3 et 15 caractères").show();
             return false;
         } else {
-            $('#lastnameError').text("").show();
+            $('#lastnameError').text("").hide();
             return true;
         }
     }
 
-    // Validation du mot de passe avec délai pour l'affichage des erreurs
+    // Validation et transformation du Firstname (première lettre en majuscule et le reste en minuscule) en temps réel
+    function validateFirstname(firstname) {
+        firstname = firstname.replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ\s'-]/g, ''); // Supprimer les caractères invalides
+        firstname = firstname.charAt(0).toUpperCase() + firstname.slice(1).toLowerCase(); // Première lettre en majuscule, le reste en minuscule
+        $('#floatingFirstName').val(firstname); // Mettre à jour la valeur du champ
+
+        if (firstname === "") {
+            $('#firstnameError').text("Le prénom est requis").show();
+            return false;
+        }
+        if (firstname.length < 3 || firstname.length > 20) {
+            $('#firstnameError').text("Doit contenir entre 3 et 20 caractères").show();
+            return false;
+        } else {
+            $('#firstnameError').text("").hide();
+            return true;
+        }
+    }
+
+    // Validation de l'email
+    function validateEmail(email) {
+        if (email === "") {
+            $('#emailError').text("").show();
+            return false;
+        }
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            $('#emailError').text("Email invalide").show();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // Validation du mot de passe
     function validatePassword(password) {
         if (password === "") {
-            setTimeout(() => $('#passwordError').text("Le mot de passe est requis").show(), typingDelay);
+            $('#passwordError').text("").show();
             return false;
         }
 
@@ -77,75 +85,76 @@ $(document).ready(function() {
         var digitValid = /\d/.test(password);
 
         if (!lengthValid) {
-            setTimeout(() => $('#passwordError').text("Doit contenir entre 8 et 25 caractères").show(), typingDelay);
+            $('#passwordError').text("Doit contenir entre 8 et 25 caractères").show();
             return false;
         } else if (!uppercaseValid || !lowercaseValid || !digitValid) {
-            setTimeout(() => $('#passwordError').text("Doit contenir au moins une majuscule, une minuscule et un chiffre").show(), typingDelay);
+            $('#passwordError').text("Doit contenir au moins une majuscule, une minuscule et un chiffre").show();
             return false;
         } else {
-            $('#passwordError').text("").show();
+            $('#passwordError').text("").hide();
             return true;
         }
     }
 
-    // Validation de l'email avec délai pour l'affichage des erreurs
-    function validateEmail(email) {
-        if (email === "") {
-            setTimeout(() => $('#emailError').text("L'email est requis").show(), typingDelay);
-            return false;
+    // Vérification de l'existence de l'email
+    function checkEmailExistence(email) {
+        const isEmailValid = validateEmail(email);
+        if (!isEmailValid) {
+            $('#emailError').text("").hide();
+            $('#submitButton').prop('disabled', true);
+            return;
         }
-        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            setTimeout(() => $('#emailError').text("L'email est invalide").show(), typingDelay);
-            return false;
-        } else {
-            $('#emailError').text("").show();
-            return true;
-        }
+
+        $.ajax({
+            url: '/user/checkEmail',
+            method: 'POST',
+            data: { email: email },
+            success: function(exists) {
+                if (exists) {
+                    $('#emailError').text("Cet email est déjà utilisé").show();
+                    $('#submitButton').prop('disabled', true);
+                } else {
+                    $('#emailError').text("").hide();
+                    validateForm();
+                }
+            },
+            error: function() {
+                $('#emailError').text("Une erreur s'est produite lors de la vérification").show();
+            }
+        });
     }
 
-    // Fonction de temporisation pour la saisie des erreurs
     function startTypingTimer(callback) {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(callback, typingDelay);
     }
 
-    // Gestion des événements de saisie pour les champs
     $('#floatingFirstName').on('input', function() {
-        startTypingTimer(() => {
-            validateFirstname($(this).val().trim());
-        });
-        validateForm(); // Valider le formulaire immédiatement
+        validateFirstname($(this).val().trim());
+        validateForm();
     });
 
     $('#floatingLastname').on('input', function() {
-        startTypingTimer(() => {
-            validateLastname($(this).val().trim());
-        });
-        validateForm(); // Valider le formulaire immédiatement
+        validateLastname($(this).val().trim());
+        validateForm();
     });
 
     $('#floatingEmail').on('input', function() {
         const email = $(this).val().trim();
         if (email) {
-            startTypingTimer(() => {
-                validateEmail(email);
-                checkEmailExistence(email);
-            });
+            validateEmail(email);
+            checkEmailExistence(email);
         } else {
-            $('#emailError').text("").show();
-            validateForm(); // Valider le formulaire immédiatement
+            $('#emailError').text("").hide();
+            validateForm();
         }
     });
 
     $('#floatingPassword').on('input', function() {
-        startTypingTimer(() => {
-            validatePassword($(this).val().trim());
-        });
-        validateForm(); // Valider le formulaire immédiatement
+        validatePassword($(this).val().trim());
+        validateForm();
     });
 
-    // Toggle de visibilité du mot de passe
     $('#togglePassword').on('click', function() {
         const passwordField = $('#floatingPassword');
         const passwordFieldType = passwordField.attr('type');
@@ -154,35 +163,20 @@ $(document).ready(function() {
         if (passwordFieldType === 'password') {
             passwordField.attr('type', 'text');
             icon.removeClass('fa-eye-slash').addClass('fa-eye');
-            icon.addClass('active'); // Ajoute la classe active à l'icône
+            icon.addClass('active');
         } else {
             passwordField.attr('type', 'password');
             icon.removeClass('fa-eye').addClass('fa-eye-slash');
-            icon.removeClass('active'); // Enlève la classe active
+            icon.removeClass('active');
         }
     });
 
-    // Écouteur pour la case à cocher
     $('#condition').on('change', function() {
-        validateForm(); // Valider le formulaire immédiatement
-    });
-
-    // Soumission finale
-    $('#form').on('submit', function(e) {
-        e.preventDefault();
         validateForm();
-        if (!$('#submitButton').is(':disabled')) {
-            this.submit();
-        }
     });
 
-//     Generate random sign up image
-    // Générer un nombre aléatoire
-    var randomImageIndex = Math.floor(Math.random() * 11); // Math.random() génère un nombre entre 0 et 1, *9 le rend entre 0 et 8
-
-    // Sélectionnez l'élément image
+    // Générer une image de signe aléatoire
+    var randomImageIndex = Math.floor(Math.random() * 11); // Math.random() génère un nombre entre 0 et 1, *11 le rend entre 0 et 10
     var imgElement = document.getElementById("userImage");
-
-    // Changez le `src` de l'image en fonction du nombre aléatoire
     imgElement.src = "/img/img_" + randomImageIndex + ".png"; // Charge l'image aléatoire
 });

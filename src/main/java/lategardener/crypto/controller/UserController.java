@@ -3,6 +3,8 @@ package lategardener.crypto.controller;
 import lategardener.crypto.model.User;
 import lategardener.crypto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,10 +41,32 @@ public class UserController {
         return "registration";
     }
 
-    @GetMapping(path = "/test")
-    public String testy(Model model){
+    @GetMapping(path = "/signUp")
+    public String signUpPage(Model model){
         model.addAttribute("user", new User());
         return "signUp";
+    }
+
+    @GetMapping(path = "/signIn")
+    public String SignInPage(Model model){
+        model.addAttribute("user", new User());
+        return "signIn";
+    }
+
+
+    @PostMapping("/validate")
+    public ResponseEntity<String> validateUser(@RequestBody User user) {
+        boolean isValid = userService.validateUserCredentials(user.getEmail(), user.getPassword());
+        if (isValid) {
+            return ResponseEntity.ok("valid");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
+
+    @GetMapping(path = "/dashboard")
+    public String dashBoard(){
+        return "userPage";
     }
 
 
@@ -57,10 +81,13 @@ public class UserController {
         return "success"; // Redirige vers une page de succès
     }
 
+
     @PostMapping("/checkEmail")
     @ResponseBody
     public boolean checkEmail(@RequestParam String email) {
         return userService.emailExist(email);
     }
+
+
 
 }

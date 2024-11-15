@@ -43,4 +43,18 @@ public class UserService {
         }
         return false;
     }
+
+
+    public boolean validateUserCredentials(String email, String password) {
+        Optional<User> user = userRepository.findUserByEmail(email);
+
+        if (user.isPresent()) {
+
+            System.out.println("expected => email : " +  user.get().getEmail() + " password : " + user.get().getPassword());
+            System.out.println("input => email : " +  email + " password : " + password);
+            return user.get().getPassword().equals(password);
+        }
+        System.out.println("User not present");
+        return false;
+    }
 }

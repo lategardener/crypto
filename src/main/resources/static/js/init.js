@@ -26,7 +26,7 @@ $(document).ready(function() {
         $('#floatingLastname').val(lastname); // Mettre à jour la valeur du champ
 
         if (lastname === "") {
-            $('#lastnameError').text("Le nom est requis").show();
+            $('#lastnameError').text("").show();
             return false;
         }
         if (lastname.length < 3 || lastname.length > 15) {
@@ -45,7 +45,7 @@ $(document).ready(function() {
         $('#floatingFirstName').val(firstname); // Mettre à jour la valeur du champ
 
         if (firstname === "") {
-            $('#firstnameError').text("Le prénom est requis").show();
+            $('#firstnameError').text("").show();
             return false;
         }
         if (firstname.length < 3 || firstname.length > 20) {

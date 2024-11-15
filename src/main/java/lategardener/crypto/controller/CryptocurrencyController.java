@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
 @RequestMapping("/crypto")
@@ -46,6 +45,8 @@ public class CryptocurrencyController {
         cryptocurrencyService.addCrypto(symbol);
     }
 
+    //    API
+
 
     @PutMapping(path = "/updatePrice")
     @ResponseBody
@@ -61,11 +62,9 @@ public class CryptocurrencyController {
     @ResponseBody
     public ResponseEntity<Void> updatePriceChangePercent() {
         cryptocurrencyService.updatePriceChangePercent();
-        return ResponseEntity.ok().build(); // Retourne un statut 200 sans contenu
+        return ResponseEntity.ok().build();
     }
 
-
-    //    API
     @GetMapping("/showCryptos")
     public String showCryptos(Model model) {
         // Récupérer toutes les cryptomonnaies de la base de données
@@ -77,4 +76,5 @@ public class CryptocurrencyController {
         // Retourner la vue avec les cryptomonnaies
         return "homePage"; // Assurez-vous que cette page est ton fichier homePage.html
     }
+
 }

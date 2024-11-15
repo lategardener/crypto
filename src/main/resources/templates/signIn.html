@@ -16,7 +16,7 @@
 
   <!-- Illustration on the left-->
   <div class="col-md-4 d-flex justify-content-center align-items-center">
-    <img id="userImage" src="/img/img_0.png" alt="crypto_image" class="img-fluid">
+    <img id="userImage" src="/img/sign_up/img_1.png" alt="crypto_image" class="img-fluid">
   </div>
 
   <!-- Sign up form on the right-->
@@ -29,25 +29,11 @@
 
         <form th:action="@{/user/registerUser}" th:object="${user}" method="post" class="">
           <!-- Firstname and Lastname-->
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="form-group">
-              <input type="text" id="floatingLastname" class="form-control" placeholder=" " th:name="lastName" minlength="3" maxlength="15" />
-              <label for="floatingLastname" class="info">Lastname</label>
-              <div class="text-danger" id="lastnameError"></div>
-            </div>
-            <div class="form-group">
-              <input type="text" id="floatingFirstName" class="form-control" placeholder=" " th:name="firstName" minlength="3" maxlength="20" />
-              <label for="floatingFirstName" class="info">Firstname</label>
-              <div class="text-danger" id="firstnameError"></div>
-            </div>
-          </div>
 
           <div class="d-flex justify-content-between align-items-center">
             <div class="form-group">
               <input type="text" id="floatingEmail" class="form-control" placeholder=" " th:name="email" minlength="5" maxlength="25" />
               <label for="floatingEmail" class="info">Email Address</label>
-              <div class="text-danger" id="emailError"></div>
-
             </div>
           </div>
 
@@ -57,17 +43,12 @@
             <button type="button" class="eye-icon" id="togglePassword">
               <i class="fas fa-eye-slash display"></i>
             </button>
-            <div class="text-danger input-width adjust" id="passwordError"></div>
-          </div>
-
-          <div class="form-check input-width mb-4">
-            <input class="form-check-input me-2" type="checkbox" value="" id="condition" />
-            <label class="form-check-label" for="condition">I agree all statements in Terms of service</label>
+            <div class="text-danger" id="inputError"></div>
           </div>
 
           <!-- Validation Button -->
           <div class="text-center group-form">
-            <button type="submit" class="btn btn-primary mb-4" id="submitButton" disabled>Sign up</button>
+            <button type="submit" class="btn btn-primary mb-4" id="submitButton" >Sign up</button>
           </div>
 
 

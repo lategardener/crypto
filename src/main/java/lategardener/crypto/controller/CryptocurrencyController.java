@@ -65,8 +65,8 @@ public class CryptocurrencyController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/showCryptos")
-    public String showCryptos(Model model) {
+    @GetMapping("/homePage")
+    public String homePage(Model model) {
         // Récupérer toutes les cryptomonnaies de la base de données
         List<Cryptocurrency> cryptocurrencies = cryptocurrencyService.getAllCryptoccurencies();
 

@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f5f6f8 !important;
+}
+
+
+.sidebar {
+   background-color: white !important;
+    font-size: 14px;
+}
+
+/* Styles par défaut pour les éléments de la navbar */
+.nav-item {
+    margin-bottom: 20px; /* Ajoute de l'espace sous chaque élément */
+    transition: all 0.3s ease; /* Transition douce pour l'effet de survol */
+}
+
+.nav-link {
+    padding-left: 15px; /* Augmente l'espace entre l'icône et le texte */
+    padding-right: 15px; /* Ajoute un peu de marge de chaque côté du lien */
+    border-radius: 20px; /* Bords arrondis */
+    transition: all 0.3s ease; /* Transition douce pour l'effet de survol */
+}
+
+/* Effet de survol */
+.nav-link:hover {
+    color: white !important;
+    background-color: #007bff; /* Fond bleu */
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Ombre pour effet de surélévation */
+    transform: translateY(-2px); /* Légère surélévation pour l'effet de survol */
+}
+
+/* Appliquer l'effet de survol également sur l'icône */
+.nav-link i {
+    transition: transform 0.3s ease;
+}
+
+/* Si tu veux que l'icône se déplace légèrement aussi pendant le survol */
+.nav-link:hover i {
+    transform: scale(1.1); /* Agrandir l'icône légèrement */
+}
+
+
+.input-box {
+    position: relative;
+    width:280px;
+}
+
+.input-box i {
+    position: absolute;
+    right: 11px;
+    top: 10px;
+    color: #ced4da;
+    font-size: 13px;
+}
+
+.form-control {
+    height: 30px;
+    padding: 5px 10px; /* Réduction du padding interne */
+    background-color: #eeeeee69;
+    border-radius: 30px; /* Rounded corners */
+    font-size: 13px;
+    padding-right: 30px;
+}
+
+.form-control:focus {
+    background-color: #eeeeee69;
+    box-shadow: none;
+    border-color: #007bff; /* Blue border when focused */
+}
+
+.col-lg-10 {
+    width: 83.3333333333%;
+    width: 91.333%;
+}
+

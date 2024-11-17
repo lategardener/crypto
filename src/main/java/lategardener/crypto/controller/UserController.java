@@ -1,5 +1,6 @@
 package lategardener.crypto.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lategardener.crypto.model.User;
 import lategardener.crypto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,20 +66,25 @@ public class UserController {
     }
 
     @GetMapping(path = "/dashboard")
-    public String dashBoard(){
+    public String dashBoard(HttpSession session, Model model) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser != null) {
+            model.addAttribute("user", currentUser);
+        }
         return "userPage";
     }
 
 
     @PostMapping("/registerUser")
-    public String registerUser(@ModelAttribute User user, Model model) {
+    public String registerUser(@ModelAttribute User user, Model model, HttpSession session) {
 
         String responseMessage = userService.addUser(user);
         if (responseMessage != null) {
             model.addAttribute("emailError", responseMessage); // Ajoute le message d'erreur à la vue
-            return "registration"; // Retourne à la vue de l'inscription avec l'erreur
+            return "error";
         }
-        return "success"; // Redirige vers une page de succès
+        session.setAttribute("currentUser", user);
+        return "redirect:/user/dashboard"; // Redirige vers la page de tableau de bord
     }
 
 

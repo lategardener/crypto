@@ -1,5 +1,7 @@
 package lategardener.crypto.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -17,10 +19,22 @@ public class Wallet {
     private String name;
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<CryptoHolding> cryptoHoldings = new HashSet<>();
+
+
+    public Wallet(String adresse, String name, User user) {
+        this.adresse = adresse;
+        this.name = name;
+        this.user = user;
+    }
+
+    public Wallet() {
+    }
 
     public Long getId() {
         return id;

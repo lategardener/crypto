@@ -1,5 +1,6 @@
 package lategardener.crypto.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ public class Cryptocurrency {
 
 
     @OneToMany(mappedBy = "cryptocurrency", cascade = CascadeType.ALL)
+    @JsonBackReference
     private Set<CryptoHolding> cryptoHoldings = new HashSet<>();
 
     public Long getId() {

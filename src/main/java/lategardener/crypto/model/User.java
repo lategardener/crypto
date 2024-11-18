@@ -46,6 +46,7 @@ public class User {
     private Set<PaymentMethod> paymentMethods = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<Wallet> wallets = new HashSet<>();
 
     public User(String email, String password, String firstName, String lastName, LocalDateTime createdAt, Profile profile, Set<BankAccount> bankAccounts, Set<PaypalAccount> paypalAccounts, Set<PaymentMethod> paymentMethods, Set<Wallet> wallets) {

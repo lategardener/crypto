@@ -9,9 +9,12 @@ body {
 }
 
 
+
+
 .sidebar {
    background-color: white !important;
     font-size: 14px;
+    width: 205px;
 }
 
 /* Styles par défaut pour les éléments de la navbar */
@@ -75,7 +78,55 @@ body {
 }
 
 .col-lg-10 {
-    width: 83.3333333333%;
-    width: 91.333%;
+    width: 88.333%;
 }
+
+
+#cryptoPieChart {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+#cryptoLegend {
+    padding-left: 0;
+    list-style: none;
+}
+
+#cryptoLegend li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#cryptoLegend li span {
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+
+
+
+.box {
+    box-shadow: 1px 1px 4px 1px #d9d3d3;
+    border-radius: 20px;
+}
+
+.main_button{
+    margin-right: 40px;
+}
+
+#totalValue{
+    color:#ffd700;
+    font-family: 'Times New Roman', Times, serif;
+    text-shadow: 1px 1px 3px #2d2d2d;
+}
+
+
+#wallet:hover{
+    transform: scale(1.1); /* Agrandit l'image à 110% */
+}
+
+
 

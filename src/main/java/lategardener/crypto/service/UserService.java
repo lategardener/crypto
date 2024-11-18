@@ -21,10 +21,14 @@ public class UserService {
     @Autowired
     private BankAccountService bankAccountService;
 
+    @Autowired
+    private WalletService walletService;
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
+    // Add of potential new user
     public String addUser(User user) {
         Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
         if (userOptional.isPresent()) {
@@ -33,9 +37,11 @@ public class UserService {
         user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
         bankAccountService.createBankAccountForUser(user);
+        walletService.createUserWallet(user);
         return null;
     }
 
+    // Check email existence
     public boolean emailExist(String email){
         Optional<User> userOptional = userRepository.findUserByEmail(email);
         if (userOptional.isPresent()) {
@@ -45,6 +51,7 @@ public class UserService {
     }
 
 
+    // Check if email and password related are good and in the database
     public boolean validateUserCredentials(String email, String password) {
         Optional<User> user = userRepository.findUserByEmail(email);
 

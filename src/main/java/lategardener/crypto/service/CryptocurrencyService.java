@@ -39,6 +39,13 @@ public class CryptocurrencyService {
 
 
 
+    public Cryptocurrency getCryptocurrency(String symbol){
+        Optional<Cryptocurrency> optionalCryptocurrency = cryptocurrencyRepository.findBySymbol(symbol);
+        if (optionalCryptocurrency.isPresent()){
+            return optionalCryptocurrency.get();
+        }
+        return null;
+    }
 
     public List<String> getAllValidSymbols() {
         String url = "https://api.binance.com/api/v3/exchangeInfo";

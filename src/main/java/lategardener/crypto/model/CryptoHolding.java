@@ -1,5 +1,7 @@
 package lategardener.crypto.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -15,10 +17,15 @@ public class CryptoHolding {
     private Long id;
     private Double amount;
 
+    private String name;
+
+    private String symbol;
+
     private LocalDate createdAt;
 
     @ManyToOne
     @JoinColumn(name = "wallet_id")
+    @JsonBackReference
     private Wallet wallet;
 
     @ManyToMany(mappedBy = "cryptoHoldings")
@@ -26,7 +33,20 @@ public class CryptoHolding {
 
     @ManyToOne
     @JoinColumn(name = "cryptocurrency_id")
+    @JsonManagedReference
     private Cryptocurrency cryptocurrency;
+
+
+    public CryptoHolding(Double amount, String name, String symbol, Wallet wallet) {
+        this.amount = amount;
+        this.name = name;
+        this.symbol = symbol;
+        this.createdAt = LocalDate.now();
+        this.wallet = wallet;
+    }
+
+    public CryptoHolding() {
+    }
 
     public Long getId() {
         return id;
@@ -42,6 +62,22 @@ public class CryptoHolding {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public LocalDate getCreatedAt() {

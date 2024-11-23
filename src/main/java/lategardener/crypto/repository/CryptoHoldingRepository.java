@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface CryptoHoldingRepository extends JpaRepository<CryptoHolding, Long> {
     @Query(value = " select * from crypto_holding h where h.wallet_id=?1 and h.symbol=?2 ", nativeQuery = true)
-    Optional<CryptoHolding> findHoldingByWalletIdAndName(Long walletId, String symbol);
+    Optional<CryptoHolding> findHoldingByWalletIdAndSymbol(Long walletId, String symbol);
+
+
 
 }

@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-
     let previousTotalValue = 0; // Variable pour stocker la valeur précédente du total
     let cryptoPriceHistory = {}; // Objet pour stocker les prix historiques de chaque crypto
     let cryptoCharts = {}; // Objet pour stocker les instances des graphiques
@@ -8,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const COLORS = ['#8e44ad', '#f39c12', '#e74c3c', '#16a085', '#3498db', '#2ecc71', '#e74c3c', '#2980b9', '#f39c12', '#c0392b']; // Liste de couleurs
     const COLORS2 = ['#8e44ad', '#f39c12', '#3498db', '#2ecc71', '#e74c3c', '#c0392b']; // Liste de couleurs
     const ALPHA = 0.2; // Opacité des couleurs pour le remplissage
+    let cryptoPieChart = null; // Variable pour stocker l'instance du graphique en forme de beignet
 
     // Fonction pour choisir une couleur aléatoire avec opacité
     function getRandomColorWithAlpha() {
@@ -60,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Création du graphique avec des rayons différents
         const ctx = document.getElementById('cryptoPieChart').getContext('2d');
-        new Chart(ctx, {
+        cryptoPieChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: labels,
@@ -356,4 +355,182 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     }, 1000);  // Met à jour toutes les 1 seconde
+
+    // Fonction pour créer ou mettre à jour le graphique
+    function updateOrCreateCryptoChart(updatedHoldings) {
+        // Vérifier si les données mises à jour sont valides
+        if (!updatedHoldings || updatedHoldings.length === 0) {
+            console.error("Aucune donnée de crypto holding disponible.");
+            return;
+        }
+
+        const totalAmount = updatedHoldings.reduce((sum, item) => sum + item.amount, 0);
+
+        const sortedHoldings = updatedHoldings.sort((a, b) => b.amount - a.amount);
+        const topHoldings = sortedHoldings.slice(0, 4);
+        const remainingHoldings = sortedHoldings.slice(4);
+        const remainingTotal = remainingHoldings.reduce((sum, item) => sum + item.amount, 0);
+
+        if (remainingHoldings.length > 0) {
+            topHoldings.push({
+                name: 'Others',
+                amount: remainingTotal
+            });
+        }
+
+        const labels = topHoldings.map(item => item.name);
+        const amounts = topHoldings.map(item => item.amount);
+
+        // Liste des couleurs
+        let colors = ['#8e44ad', '#f39c12', '#e74c3c', '#16a085', '#3498db'];
+
+        // Mélanger l'ordre des couleurs à chaque mise à jour
+        shuffleArray(colors);
+
+        // Vérifier si le graphique existe déjà
+        const ctx = document.getElementById('cryptoPieChart').getContext('2d');
+
+        if (cryptoPieChart) {
+            // Si le graphique existe déjà, on le détruit avant de le recréer
+            cryptoPieChart.destroy();
+        }
+
+        // Créer un nouveau graphique
+        cryptoPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: amounts,
+                    backgroundColor: colors,
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '50%', // Pour ajuster l'épaisseur du cercle
+                plugins: {
+                    legend: {
+                        display: false // Masquer la légende intégrée
+                    }
+                },
+                elements: {
+                    arc: {
+                        borderRadius: (context) => {
+                            const value = context.raw;
+                            return (value / totalAmount) * 20; // Adapte ce facteur pour obtenir des différences visibles
+                        }
+                    }
+                }
+            }
+        });
+
+        // Mettre à jour la légende
+        const legendContainer = document.getElementById('cryptoLegend');
+        legendContainer.innerHTML = ''; // Vider la légende existante
+        topHoldings.forEach((item, index) => {
+            const percentage = ((item.amount / totalAmount) * 100).toFixed(2) + '%';
+            const legendItem = document.createElement('li');
+            legendItem.innerHTML = `
+            <span style="background-color: ${colors[index]}; width: 10px; height: 10px; display: inline-block; margin-right: 10px; border-radius: 50%;"></span>
+            ${item.name} ${percentage}
+        `;
+            legendContainer.appendChild(legendItem);
+        });
+    }
+
+    // Fonction de confirmation d'échange
+    // Fonction de confirmation d'échange
+    document.getElementById('confirmExchange').addEventListener('click', async () => {
+        // Récupérer les données pour l'échange
+        const sendCryptoSymbol = document.getElementById('selectedCryptoSymbol').textContent;
+        const sendAmount = parseFloat(document.getElementById('sendAmount').value);
+        const receiveCryptoSymbol = document.getElementById('selectedReceiveCryptoSymbol').textContent;
+        const receiveAmount = parseFloat(document.getElementById('getAmount').value);
+
+        if (!walletId || !sendCryptoSymbol || !sendAmount || !receiveCryptoSymbol || !receiveAmount) {
+            Swal.fire("Erreur", "Données invalides pour l'échange", "error");
+            return;
+        }
+
+        // Afficher "Transaction en cours" pendant 3 secondes
+        await Swal.fire({
+            title: 'Transaction in Progress',
+            text: 'Please wait...',
+            icon: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            timer: 3000, // Durée en millisecondes
+            didOpen: () => {
+                Swal.showLoading(); // Afficher le spinner
+            }
+        });
+
+        try {
+            // Mise à jour des quantités dans le backend
+            await fetch(`/cryptoHolding/addAmount?walletId=${walletId}&cryptoSymbol=${sendCryptoSymbol}&newQuantity=${sendAmount}`, {
+                method: "PUT",
+            });
+
+            await fetch(`/cryptoHolding/increaseAmount?walletId=${walletId}&cryptoSymbol=${receiveCryptoSymbol}&newQuantity=${receiveAmount}`, {
+                method: "PUT",
+            });
+
+            // Récupérer les nouvelles données après l'échange
+            const updatedHoldings = await fetchUpdatedCryptoHoldings();
+
+            // Mettre à jour le graphique avec les nouvelles données
+            if (updatedHoldings) {
+                updateOrCreateCryptoChart(updatedHoldings); // Cette fonction mettra à jour le graphique avec les nouvelles données
+            }
+
+            // Afficher le succès après l'échange
+            Swal.fire({
+                title: 'Success!',
+                text: 'Exchange successfully executed.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
+        } catch (error) {
+            console.error("Erreur lors de l'échange:", error);
+
+            Swal.fire({
+                title: 'Erreur',
+                text: 'Une erreur est survenue lors de l\'échange. Veuillez réessayer.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+
+
+
+    async function fetchUpdatedCryptoHoldings() {
+        try {
+            // Remplacez l'URL par l'endpoint réel de votre API
+            const response = await fetch(`/wallet/api/wallet/${walletId}`);
+
+            // Vérifier si la réponse de l'API est valide
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des données du portefeuille');
+            }
+
+            // Récupérer le portefeuille en tant qu'objet
+            const wallet = await response.json();
+            console.log(wallet);
+
+            // Assurez-vous que le portefeuille contient la propriété "cryptos" (ou ce que vous utilisez dans votre réponse)
+            if (wallet && Array.isArray(wallet.cryptoHoldings)) {
+                // Retourner les cryptos mises à jour
+                return wallet.cryptoHoldings;
+            } else {
+                throw new Error('Les données des cryptos sont manquantes dans la réponse');
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération des données du portefeuille:", error);
+            return null;
+        }
+    }
+
 });

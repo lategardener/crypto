@@ -225,12 +225,21 @@ label{
 /* Style spécifique pour les icônes et bouton */
 
 
-#cryptoPriceSend, #cryptoBalanceSend {
+#cryptoPriceSend, #cryptoBalanceSend, #cryptoPriceGet, #cryptoBalanceGet{
     width: 150px;        /* Fixe la largeur des éléments */
     white-space: nowrap; /* Empêche le texte de se casser */
     overflow: hidden;    /* Cache le texte excédentaire */
     text-overflow: ellipsis; /* Ajoute des points de suspension si nécessaire */
     flex-shrink: 0;      /* Empêche la réduction de la largeur */
+}
+
+
+/*Deactivate exchange button to avoid exchange the same crypto*/
+.deactivate{
+    background-color: #d6d6d6; /* Couleur grise pour indiquer qu'il est désactivé */
+    color: #a1a1a1; /* Texte grisé */
+    border-color: #d6d6d6; /* Bordure grise */
+    cursor: not-allowed /* Curseur qui indique que l'interaction n'est pas possible */
 }
 
 

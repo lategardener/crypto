@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WalletService {
@@ -67,6 +68,27 @@ public class WalletService {
     // Default wallet recovery
     public Wallet getUserDefaultWallet(Long userId){
         return walletRepository.userDefaultWallet(userId);
+    }
+
+
+    public void addWalletCrypto(Long wallet_id, CryptoHolding cryptoHolding){
+        Optional<Wallet> wallet = walletRepository.findById(wallet_id);
+        if (wallet.isPresent()){
+            Wallet walletRecover = wallet.get();
+            walletRecover.addCryptoHolding(cryptoHolding);
+            walletRepository.save(walletRecover);
+        }
+    }
+
+    public Wallet getWallet (Long wallet_id){
+        Optional<Wallet> wallet = walletRepository.findById(wallet_id);
+        if(wallet.isPresent()){
+            return wallet.get();
+        }
+        else{
+            return new Wallet();
+        }
+
     }
 
 }

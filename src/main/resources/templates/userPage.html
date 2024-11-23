@@ -12,12 +12,9 @@
     <link rel="stylesheet" href="/css/userPage.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var walletId = /*[[${defaultWallet.id}]]*/ 0;
-        /*]]>*/
-    </script>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -293,7 +290,7 @@
                                                 <img id="selectedReceiveCryptoImage"
                                                      src="https://cryptologos.cc/logos/ethereum-eth-logo.png"
                                                      alt="logo" style="width: 20px; height: 20px; object-fit: contain; margin-right: 10px;">
-                                                <span id="selectedReceiveCryptoName">ETH</span>
+                                                <span id="selectedReceiveCryptoSymbol">ETH</span>
                                             </div>
                                         </button>
 
@@ -314,7 +311,7 @@
                                         </ul>
                                     </div>
 
-                                    <div class="" style="font-size: 12px; position: absolute; margin-top: -26px; margin-left: 15px; color: black; display: flex; align-items: center; gap: 95px;">
+                                    <div class="" style="font-size: 12px; position: absolute; margin-top: -26px; margin-left: 15px; color: black; display: flex; align-items: center; gap: 45px;">
                                         <!-- Afficher le prix du Bitcoin -->
                                         <p id="cryptoPriceGet" th:text="'1 ETH = $' + ${defaultGetCrypto.getCurrentPrice()}" style="margin: 0;"></p>
                                         <p id="cryptoBalanceGet" th:text="'Balance: ' + ${userDefaultGetCrypto.getAmount()} + ' ETH'" style="margin: 0;"></p>
@@ -326,7 +323,7 @@
                                 <form>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="form-group">
-                                            <input type="text" id="getAmount" class="form-control" placeholder=" " />
+                                            <input type="text" id="getAmount" class="form-control" placeholder=" " disabled/>
                                             <label for="getAmount" class="info"> Amount </label>
                                         </div>
                                     </div>
@@ -351,6 +348,8 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     const cryptoHoldingsData = /*[[${defaultWallet.cryptoHoldings}]]*/ [];
+    var walletId = /*[[${defaultWallet.id}]]*/ 0;
+
     /*]]>*/
 </script>
 

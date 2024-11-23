@@ -111,22 +111,130 @@ body {
 .box {
     box-shadow: 1px 1px 4px 1px #d9d3d3;
     border-radius: 20px;
+    background-color: white;
 }
 
 .main_button{
     margin-right: 40px;
 }
 
+
 #totalValue{
     color:#ffd700;
     font-family: 'Times New Roman', Times, serif;
-    text-shadow: 1px 1px 3px #2d2d2d;
+    text-shadow: 1px 1px 2px #756f3c;
 }
 
 
 #wallet:hover{
     transform: scale(1.1); /* Agrandit l'image à 110% */
 }
+
+.card-title {
+    margin-bottom:.5rem;
+    font-size: 16px;
+}
+.card-text{
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+
+
+/*css for exchange cryptos box*/
+
+
+/* Styles pour améliorer le rendu visuel */
+.exchange-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.exchange-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+
+
+/* For input*/
+
+/* Structure de base des champs */
+.form-group {
+    position: relative !important;
+    margin-bottom: 2.1rem; !important
+    flex-grow: 1 !important;
+    margin-right: 10px !important;
+}
+
+/* Style des champs de saisie */
+.form-control {
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+    padding: 12px 12px 12px 15px !important;
+    font-size: 12px !important;
+    width: 88% !important;
+    outline: none !important;
+    background-color: #fff !important;
+}
+
+/* Focus sur les champs de saisie */
+.form-control:focus {
+    border-color: #007bff !important;
+}
+
+/* Positionnement des labels */
+.info {
+    position: absolute !important;
+    top: 14px !important;
+    left: 15px !important;
+    font-size: 14px !important;
+    color: #999 !important;
+    transition: all 0.3s ease !important;
+    pointer-events: none !important;
+}
+
+label{
+    font-size: 12px;
+}
+
+/* Effet flottant du label lorsque l'input est focus ou non vide */
+.form-control:focus + label ,
+.form-control:not(:placeholder-shown) + label {
+    top: -10px !important;
+    left: 15px !important;
+    font-size: 12px !important;
+    color: #007bff !important;
+    background-color: #fff !important;
+    padding: 0 0 !important;
+}
+
+/* Eviter que le label ne remonte si le champ est vide */
+.form-control:placeholder-shown + label {
+    top: 6px !important;
+    font-size: 12px !important;
+    color: #999 !important;
+    background-color: transparent !important;
+    padding-left : 3px !important;
+}
+
+/* Style spécifique pour les icônes et bouton */
+
+
+#cryptoPriceSend, #cryptoBalanceSend {
+    width: 150px;        /* Fixe la largeur des éléments */
+    white-space: nowrap; /* Empêche le texte de se casser */
+    overflow: hidden;    /* Cache le texte excédentaire */
+    text-overflow: ellipsis; /* Ajoute des points de suspension si nécessaire */
+    flex-shrink: 0;      /* Empêche la réduction de la largeur */
+}
+
+
+
 
 
 

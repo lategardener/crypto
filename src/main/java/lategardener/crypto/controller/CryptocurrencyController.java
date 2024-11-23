@@ -77,4 +77,11 @@ public class CryptocurrencyController {
         return "homePage"; // Assurez-vous que cette page est ton fichier homePage.html
     }
 
+    @GetMapping(path = "/api/cryptos/getLastPrices")
+    @ResponseBody
+    public List<Double> getLastPrices(@RequestParam String symbol, @RequestParam(defaultValue = "10") int limit) {
+        return cryptocurrencyService.getLastPrices(symbol + "USDT", limit);
+    }
+
+
 }

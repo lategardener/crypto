@@ -28,6 +28,7 @@ public class CryptoccurencyConfig {
             cryptocurrencyService.addCrypto("ETHUSDT");
             cryptocurrencyService.addCrypto("BNBUSDT");
             cryptocurrencyService.addCrypto("ADAUSDT");
+            cryptocurrencyService.addCrypto("SOLUSDT");
         };
     }
 }

@@ -12,6 +12,12 @@
     <link rel="stylesheet" href="/css/userPage.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var walletId = /*[[${defaultWallet.id}]]*/ 0;
+        /*]]>*/
+    </script>
 </head>
 <body>
 <div class="container-fluid">
@@ -127,20 +133,62 @@
                             <div class="d-flex flex-column justify-content-center align-items-center" style="width: 35%; height: 100%; text-align: center;">
                                 <div class="d-flex justify-content-between w-100 mb-2 main_button">
                                     <!-- Première ligne de boutons -->
-                                    <button class="btn btn-success" style="width: 108px">Buy</button>
-                                    <button class="btn btn-danger" Style="width: 108px">Sell</button>
+                                    <button class="btn btn-primary" style="width: 108px">Buy</button>
+                                    <button class="btn btn-primary" Style="width: 108px">Sell</button>
                                 </div>
                                 <div class="d-flex justify-content-between w-100 main_button">
                                     <!-- Deuxième ligne de boutons -->
-                                    <button class="btn btn-info" Style="width: 108px">Send</button>
+                                    <button class="btn btn-primary" Style="width: 108px">Send</button>
                                     <button class="btn btn-primary" Style="width: 108px">Withdraw</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-3 bg-light border rounded" style="height: 230px; margin-top: 80px;">Bloc 2</div>
-                    <div class="p-3 bg-light border rounded" style="height: 270px; margin-top: 80px;">Bloc 3</div>
+                    <!-- Bloc 2-->
+                    <div class="p-3" style="height: 230px; margin-top: -18px;">
+                        <h4>Tendency</h4>
+                        <div class="row mt-4">
+                            <!-- Afficher les 4 premières cryptos sous forme de cartes -->
+                            <div class="col-md-3" th:each="crypto, iterStat : ${cryptocurrenciesSortedByPrice}" style="background-color: #f5f6f8;">
+                                <div class="card mb-3" style="width: 80%; height: 260px; background-color: #f5f6f8;">
+                                    <div class="card-body text-center box">
+
+                                        <div class="crypto-name-wrapper" style="display: flex; align-items: center; justify-content: center">
+                                            <!-- Image de la crypto à gauche -->
+                                            <img th:src="@{'https://cryptologos.cc/logos/' + ${crypto.name.toLowerCase().replace(' ', '-') + '-' + crypto.symbol.toLowerCase() + '-logo.png'}}"
+                                                 class="crypto-logo" alt="Logo de la crypto" style="width: 10%; height: auto; margin-right: 5px; margin-top: -8px;">
+                                            <!-- Nom de la crypto -->
+                                            <h5 class="card-title" th:text="${crypto.name}"></h5>
+                                        </div>
+
+
+                                        <!-- Graphique de l'évolution des prix -->
+                                        <canvas th:id="'cryptoChart' + ${iterStat.index}" style="width: 60%; height: 70px; margin-top: 25px"></canvas>
+
+                                        <!-- Prix de la crypto -->
+                                        <p class="card-text"
+                                           th:id="'cryptoPrice' + ${iterStat.index}"
+                                           th:text="'$' + ${crypto.currentPrice}">
+                                        </p>
+
+                                        <!-- Affichage de la variation du prix -->
+                                        <div th:id="'cryptoPriceChange' + ${iterStat.index}" style="display: flex; align-items: center; justify-content: center; margin-top: -17px;">
+                                            <span th:id="'arrow' + ${iterStat.index}" class="variation" style="font-size: 10px; margin-top: -1px;"></span>
+                                            <span th:id="'percentage' + ${iterStat.index}" class="variation" th:text="'0.00%'" style="font-size: 12px; margin-left: 5px;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="p-3 bg-light border rounded" style="height: 270px; margin-top: 80px;">
+
+                    </div>
                 </div>
 
                 <!-- Partie droite (30%) -->
@@ -162,7 +210,137 @@
                         </div>
                     </div>
 
-                    <div class="p-3 bg-light border rounded" style="height: 470px; margin-top: 20px;">Bloc 5</div>
+                    <!-- Exchange-->
+                    <div class="p-3 box" style="height: 470px; margin-top: 20px; background-color: white;">
+                        <h5 class="text-center">Exchange</h5>
+                        <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+
+                            <!-- Section "You Send" -->
+                            <div class="mb-0 w-100 d-flex justify-content-between align-items-center" style="position: relative">
+                                <div class="ms-3">
+                                    <!-- Liste déroulante pour choisir la crypto à envoyer -->
+                                    <div class="crypto-select-wrapper" style="position: relative; width: 200px; margin-bottom: 33px;">
+                                        <!-- Bouton affichant la crypto sélectionnée -->
+                                        <button class="btn btn-rounded btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 65%; display: flex; align-items: center; justify-content: space-between;">
+                                            <div style="display: flex; align-items: center;">
+                                                <!-- Image de la crypto -->
+                                                <img id="selectedCryptoImage"
+                                                     src="https://cryptologos.cc/logos/bitcoin-btc-logo.png"
+                                                     alt="logo" style="width: 20px; height: 20px; object-fit: contain; margin-right: 10px;">
+                                                <span id="selectedCryptoSymbol">BTC</span>
+                                            </div>
+                                        </button>
+
+
+                                        <!-- Liste déroulante -->
+                                        <ul class="dropdown-menu" style="width: 100%; padding: 0;">
+                                            <th:block th:each="crypto : ${AvailableCryptos}">
+                                                <li style="display: flex; align-items: center;">
+                                                    <a class="dropdown-item" href="#" onclick="changeCrypto(this)"
+                                                       data-name="${crypto.symbol}"
+                                                       data-price="${crypto.currentPrice}"
+                                                       data-logo="@{'https://cryptologos.cc/logos/' + ${crypto.name.toLowerCase()} + '-' + ${crypto.symbol.toLowerCase()} + '-logo.png'}">
+                                                        <!-- Image de la crypto dans l'option -->
+                                                        <img th:src="@{'https://cryptologos.cc/logos/' + ${crypto.name.toLowerCase()} + '-' + ${crypto.symbol.toLowerCase()} + '-logo.png'}"
+                                                             alt="logo" style="width: 20px; height: 20px; object-fit: contain; margin-right: 10px;">
+                                                        <span th:text="${crypto.symbol}"></span>
+                                                    </a>
+                                                </li>
+                                            </th:block>
+                                        </ul>
+
+                                    </div>
+                                    <div class="" style="font-size: 12px; position: absolute; top:44px; left: 32px; color: black; display: flex; align-items: center; gap: 43px;">
+                                        <!-- Afficher le prix du Bitcoin (crypto par defaut, doit etre modifier lorsquon selectionne une autre crypto)-->
+                                        <p id="cryptoPriceSend" th:text="'1 BTC = $' + ${defaultSendCrypto.getCurrentPrice()}" style="margin: 0;"></p>
+                                        <!-- quantité de Bitcoin dans le wallet du user(crypto par defaut, doit etre modifier lorsquon selectionne une autre crypto)-->
+                                        <p id="cryptoBalanceSend" th:text="'Balance: ' + ${userDefaultSendCrypto.getAmount()} + ' BTC'" style="margin: 0;"></p>
+                                    </div>
+
+                                </div>
+                                <!-- End section "You Send" -->
+
+                                <!-- Send Amount Input -->
+                                <form>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="form-group">
+                                            <input type="text" id="sendAmount" class="form-control" placeholder=" " />
+                                            <label for="sendAmount" class="info"> Amount </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <!-- Bouton de changement -->
+                            <div class="my-2">
+                                <label for="sendAmount" class="form-label text-center" style="font-size: 12px;">YOU SEND</label>
+                                <button id="exchangeButton" class="btn btn-outline-primary d-flex justify-content-center align-items-center"
+                                        style="border-radius: 50%; width: 50px; height: 50px;">
+                                    <i class="bi bi-arrow-down-up"></i>
+                                </button>
+                                <label for="getAmount" class="form-label text-center" style="font-size: 12px;">YOU GET</label>
+                            </div>
+
+                            <!-- Section "You Get" -->
+                            <div class="mb-3 mt-4 w-100 d-flex justify-content-between align-items-center">
+                                <div class="ms-3">
+                                    <div class="crypto-select-wrapper" style="position: relative; width: 200px; margin-bottom: 33px;">
+                                        <!-- Bouton affichant la crypto sélectionnée -->
+                                        <button class="btn btn-rounded btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 65%; display: flex; align-items: center; justify-content: space-between;">
+                                            <div style="display: flex; align-items: center;">
+                                                <!-- Image de la crypto -->
+                                                <img id="selectedReceiveCryptoImage"
+                                                     src="https://cryptologos.cc/logos/ethereum-eth-logo.png"
+                                                     alt="logo" style="width: 20px; height: 20px; object-fit: contain; margin-right: 10px;">
+                                                <span id="selectedReceiveCryptoName">ETH</span>
+                                            </div>
+                                        </button>
+
+                                        <!-- Liste déroulante -->
+                                        <ul class="dropdown-menu" style="width: 100%; padding: 0;">
+                                            <th:block th:each="crypto : ${AvailableCryptos}">
+                                                <li style="display: flex; align-items: center;">
+                                                    <a class="dropdown-item" href="#" onclick="changeReceiveCrypto(this)"
+                                                       data-name="${crypto.symbol}"
+                                                       data-logo="@{'https://cryptologos.cc/logos/' + ${crypto.name.toLowerCase()} + '-' + ${crypto.symbol.toLowerCase()} + '-logo.png'}">
+                                                        <!-- Image de la crypto dans l'option -->
+                                                        <img th:src="@{'https://cryptologos.cc/logos/' + ${crypto.name.toLowerCase()} + '-' + ${crypto.symbol.toLowerCase()} + '-logo.png'}"
+                                                             alt="logo" style="width: 20px; height: 20px; object-fit: contain; margin-right: 10px;">
+                                                        <span th:text="${crypto.symbol}"></span>
+                                                    </a>
+                                                </li>
+                                            </th:block>
+                                        </ul>
+                                    </div>
+
+                                    <div class="" style="font-size: 12px; position: absolute; margin-top: -26px; margin-left: 15px; color: black; display: flex; align-items: center; gap: 95px;">
+                                        <!-- Afficher le prix du Bitcoin -->
+                                        <p id="cryptoPriceGet" th:text="'1 ETH = $' + ${defaultGetCrypto.getCurrentPrice()}" style="margin: 0;"></p>
+                                        <p id="cryptoBalanceGet" th:text="'Balance: ' + ${userDefaultGetCrypto.getAmount()} + ' ETH'" style="margin: 0;"></p>
+                                    </div>
+
+                                </div>
+
+                                <!-- Get Amount Input -->
+                                <form>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="form-group">
+                                            <input type="text" id="getAmount" class="form-control" placeholder=" " />
+                                            <label for="getAmount" class="info"> Amount </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Bouton pour finaliser l'échange -->
+                            <div class="mt-4">
+                                <button id="confirmExchange" class="btn btn-primary w-100" style="border-radius: 8px;">Exchange</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
                 </div>
             </div>
         </main>
@@ -179,6 +357,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/js/userPage.js"></script> <!-- Inclure le fichier JavaScript séparé -->
+<script src="/js/userPage.js"></script>
+<script src="/js/priceChart.js"></script>
 </body>
 </html>

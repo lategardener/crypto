@@ -5,6 +5,7 @@ import lategardener.crypto.model.Cryptocurrency;
 import lategardener.crypto.repository.CryptocurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -178,4 +179,23 @@ public class CryptocurrencyService {
             }
         }
     }
+
+
+    public List<Double> getLastPrices(String symbol, int limit) {
+        String url = String.format("https://api.binance.com/api/v3/klines?symbol=%s&interval=1m&limit=%d", symbol, limit);
+
+        // Utiliser ParameterizedTypeReference pour le type exact de la réponse
+        ResponseEntity<List<List<Object>>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<List<Object>>>() {}
+        );
+
+        // Extraire uniquement les prix de clôture (5ᵉ élément)
+        return response.getBody().stream()
+                .map(entry -> Double.parseDouble(entry.get(4).toString())) // 5ᵉ élément = prix de clôture
+                .collect(Collectors.toList());
+    }
+
 }

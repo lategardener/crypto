@@ -4,6 +4,9 @@ import jakarta.servlet.http.HttpSession;
 import lategardener.crypto.model.CryptoHolding;
 import lategardener.crypto.model.User;
 import lategardener.crypto.model.Wallet;
+import lategardener.crypto.model.Cryptocurrency;
+import lategardener.crypto.service.CryptoHoldingService;
+import lategardener.crypto.service.CryptocurrencyService;
 import lategardener.crypto.service.UserService;
 import lategardener.crypto.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
@@ -24,6 +29,11 @@ public class UserController {
 
     @Autowired
     private WalletService walletService;
+
+    @Autowired
+    private CryptocurrencyService cryptocurrencyService;
+    @Autowired
+    private CryptoHoldingService cryptoHoldingService;
 
    // REST API
 
@@ -118,9 +128,30 @@ public class UserController {
     public String dashBoard(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser != null) {
-            System.out.println("USER RECOVER WITH SUCCES");
+            // Current user
             model.addAttribute("user", currentUser);
-            model.addAttribute("defaultWallet", walletService.getUserDefaultWallet(currentUser.getId()));
+            // Default wallet of this current user (which contains the list of his cryptos)
+            Wallet defaultWallet = walletService.getUserDefaultWallet(currentUser.getId());
+            model.addAttribute("defaultWallet", defaultWallet);
+
+            // Trier les cryptos disponible par prix décroissant et prendre les 4 premières
+            List<Cryptocurrency> cryptocurrenciesSortedByPrice = cryptocurrencyService.getAllCryptoccurencies()
+                    .stream()
+                    .sorted(Comparator.comparing(Cryptocurrency::getCurrentPrice).reversed())
+                    .limit(4)
+                    .collect(Collectors.toList());
+            model.addAttribute("cryptocurrenciesSortedByPrice", cryptocurrenciesSortedByPrice);
+
+            // ajouter toutes les criptos disponibles
+            model.addAttribute("AvailableCryptos", cryptocurrencyService.getAllCryptoccurencies());
+
+            // ajouter le bitcoin et l'ethereum comme crypto par défaut d'echange
+            model.addAttribute("defaultSendCrypto", cryptocurrencyService.getCryptocurrency("BTC"));
+            model.addAttribute("defaultGetCrypto", cryptocurrencyService.getCryptocurrency("ETH"));
+
+            // Recuperation of user Optional Bitcoin and Ethereum
+            model.addAttribute("userDefaultSendCrypto", cryptoHoldingService.getCryptoByNameAndWallet(defaultWallet.getId(), "BTC"));
+            model.addAttribute("userDefaultGetCrypto", cryptoHoldingService.getCryptoByNameAndWallet(defaultWallet.getId(), "ETH"));
         }
         return "userPage";
     }

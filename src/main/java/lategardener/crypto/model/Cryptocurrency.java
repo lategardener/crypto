@@ -14,7 +14,7 @@ public class Cryptocurrency {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String Symbol;
+    private String symbol;
     private Double currentPrice;
     private Double marketCap;
     private LocalDate createdAt;
@@ -44,11 +44,11 @@ public class Cryptocurrency {
     }
 
     public String getSymbol() {
-        return Symbol;
+        return symbol;
     }
 
     public void setSymbol(String symbol) {
-        Symbol = symbol;
+        this.symbol = symbol;
     }
 
     public Double getCurrentPrice() {

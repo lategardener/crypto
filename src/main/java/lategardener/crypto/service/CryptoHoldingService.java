@@ -59,6 +59,7 @@ public class CryptoHoldingService {
             newCrypto.setSymbol(cryptoSymbol);
             newCrypto.setWallet(walletService.getWallet(walletId));
             newCrypto.setCryptocurrency(cryptocurrencyService.getCryptocurrency(cryptoSymbol));
+            newCrypto.setName(newCrypto.getCryptocurrency().getName());
             cryptoHoldingRepository.save(newCrypto);
         }
     }

@@ -29,6 +29,7 @@ public class CryptoHolding {
     private Wallet wallet;
 
     @ManyToMany(mappedBy = "cryptoHoldings")
+    @JsonBackReference
     private Set<Transaction> transactions = new HashSet<>();
 
     @ManyToOne

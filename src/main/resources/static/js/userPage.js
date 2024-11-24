@@ -440,16 +440,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Fonction de confirmation d'échange
-    // Fonction de confirmation d'échange
     document.getElementById('confirmExchange').addEventListener('click', async () => {
-        // Récupérer les données pour l'échange
         const sendCryptoSymbol = document.getElementById('selectedCryptoSymbol').textContent;
         const sendAmount = parseFloat(document.getElementById('sendAmount').value);
+
+        const sendBalanceText = document.getElementById('cryptoBalanceSend').textContent;
+        const sendBalanceMatch = sendBalanceText.match(/Balance:\s*([\d.]+)\s*(\w+)/);
+        const sendBalance = sendBalanceMatch ? parseFloat(sendBalanceMatch[1]) : NaN;
+        const sendSymbol = sendBalanceMatch ? sendBalanceMatch[2] : '';
+
         const receiveCryptoSymbol = document.getElementById('selectedReceiveCryptoSymbol').textContent;
         const receiveAmount = parseFloat(document.getElementById('getAmount').value);
 
-        if (!walletId || !sendCryptoSymbol || !sendAmount || !receiveCryptoSymbol || !receiveAmount) {
+        const getBalanceText = document.getElementById('cryptoBalanceGet').textContent;
+        const getBalanceMatch = getBalanceText.match(/Balance:\s*([\d.]+)\s*(\w+)/);
+        const getBalance = getBalanceMatch ? parseFloat(getBalanceMatch[1]) : NaN;
+        const getSymbol = getBalanceMatch ? getBalanceMatch[2] : '';
+
+        if (!walletId || !sendCryptoSymbol || isNaN(sendAmount) || !receiveCryptoSymbol || isNaN(receiveAmount)) {
             Swal.fire("Erreur", "Données invalides pour l'échange", "error");
+            return;
+        }
+
+        if (isNaN(sendBalance) || isNaN(getBalance)) {
+            Swal.fire("Erreur", "Balances invalides.", "error");
             return;
         }
 
@@ -460,9 +474,9 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'info',
             allowOutsideClick: false,
             showConfirmButton: false,
-            timer: 3000, // Durée en millisecondes
+            timer: 3000,
             didOpen: () => {
-                Swal.showLoading(); // Afficher le spinner
+                Swal.showLoading();
             }
         });
 
@@ -476,15 +490,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: "PUT",
             });
 
-            // Récupérer les nouvelles données après l'échange
+            // Récupérer et mettre à jour les données
             const updatedHoldings = await fetchUpdatedCryptoHoldings();
-
-            // Mettre à jour le graphique avec les nouvelles données
             if (updatedHoldings) {
-                updateOrCreateCryptoChart(updatedHoldings); // Cette fonction mettra à jour le graphique avec les nouvelles données
+                updateOrCreateCryptoChart(updatedHoldings);
             }
 
-            // Afficher le succès après l'échange
+            // Mise à jour des soldes avec la fonction de formatage
+            document.getElementById('cryptoBalanceSend').textContent = `Balance: ${formatTo8Digits(sendBalance - sendAmount)} ${sendSymbol}`;
+            document.getElementById('cryptoBalanceGet').textContent = `Balance: ${formatTo8Digits(getBalance + receiveAmount)} ${getSymbol}`;
+
+            // Réinitialiser les champs
+            document.getElementById('sendAmount').value = '';
+            document.getElementById('getAmount').value = '';
+
+            // Enregistrer la transaction dans le backend
+            const transactionData = {
+                status: "Completed",
+                transactionType: "Exchange",
+                sendCryptoId: sendCryptoSymbol, // Identifiant ou symbole de la crypto envoyée
+                receiveCryptoId: receiveCryptoSymbol, // Identifiant ou symbole de la crypto reçue
+            };
+
+            await fetch('/transactions/create', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(transactionData),
+            });
+
+            console.log("Transaction enregistrée avec succès");
+
             Swal.fire({
                 title: 'Success!',
                 text: 'Exchange successfully executed.',
@@ -503,6 +540,28 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+
+
+    function formatTo8Digits(number) {
+        const numStr = number.toString(); // Convertir en chaîne
+        const parts = numStr.split('.'); // Séparer la partie entière et la partie décimale
+        const integerPart = parts[0]; // Partie entière
+        const decimalPart = parts[1] || ''; // Partie décimale (ou vide si absente)
+
+        // Calculer les caractères restants pour la partie décimale
+        const remainingDigits = 8 - integerPart.length;
+
+        if (remainingDigits > 0) {
+            // Garder la partie entière et tronquer la partie décimale
+            return parseFloat(integerPart + '.' + decimalPart.slice(0, remainingDigits));
+        } else {
+            // Si la partie entière dépasse ou égale 8 chiffres, tronquer la partie entière
+            return parseFloat(integerPart.slice(0, 8));
+        }
+    }
+
+
 
 
 

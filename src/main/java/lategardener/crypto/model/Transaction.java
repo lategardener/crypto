@@ -1,5 +1,6 @@
 package lategardener.crypto.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -17,6 +18,7 @@ public class Transaction {
     private String transactionType;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinTable(
             name = "transaction_crypto",
             joinColumns = @JoinColumn(name = "transaction_id"),

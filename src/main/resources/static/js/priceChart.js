@@ -1,6 +1,5 @@
 
 
-
 // Mettre à jour l'input de réception (getAmount) en fonction de l'input d'envoi
 
 function updateReceiveAmount() {
@@ -69,6 +68,7 @@ function changeReceiveCrypto(element) {
 // Mise à jour des informations de la crypto "Envoyer"
 
 function updateCryptoDetailsSend(selectedCryptoSymbol) {
+    // Récupérer les informations sur la crypto sélectionnée
     fetch('/crypto/api/cryptos/getAll')
         .then(response => response.json())
         .then(data => {
@@ -81,13 +81,15 @@ function updateCryptoDetailsSend(selectedCryptoSymbol) {
         })
         .catch(error => console.error('Erreur lors de la récupération des cryptos:', error));
 
+    // Récupérer le solde de la crypto sélectionnée pour l'utilisateur
     const balanceApiUrl = `/cryptoHolding/getUserCryptoBalance?walletId=${walletId}&symbol=${selectedCryptoSymbol}`;
 
     fetch(balanceApiUrl)
         .then(response => response.json())
         .then(data => {
             if (data.amount !== undefined) {
-                document.getElementById('cryptoBalanceSend').textContent = `Balance: ${data.amount} ${selectedCryptoSymbol}`;
+                const formattedAmount = formatTo8Digits(data.amount); // Limiter à 8 chiffres
+                document.getElementById('cryptoBalanceSend').textContent = `Balance: ${formattedAmount} ${selectedCryptoSymbol}`;
             } else {
                 console.error('Aucune balance trouvée');
             }
@@ -96,9 +98,29 @@ function updateCryptoDetailsSend(selectedCryptoSymbol) {
             console.error(`Erreur lors de la récupération de la balance pour l'URL: ${balanceApiUrl}`, error);
         });
 }
-// Mise à jour des informations de la crypto "Recevoir"
+
+
+function formatTo8Digits(number) {
+    const numStr = number.toString(); // Convertir en chaîne
+    const parts = numStr.split('.'); // Séparer la partie entière et la partie décimale
+    const integerPart = parts[0]; // Partie entière
+    const decimalPart = parts[1] || ''; // Partie décimale (ou vide si absente)
+
+    // Calculer les caractères restants pour la partie décimale
+    const remainingDigits = 8 - integerPart.length;
+
+    if (remainingDigits > 0) {
+        // Garder la partie entière et tronquer la partie décimale
+        return parseFloat(integerPart + '.' + decimalPart.slice(0, remainingDigits));
+    } else {
+        // Si la partie entière dépasse ou égale 8 chiffres, tronquer la partie entière
+        return parseFloat(integerPart.slice(0, 8));
+    }
+}
+
 
 function updateCryptoDetailsGet(selectedCryptoSymbol) {
+    // Récupérer les informations sur la crypto sélectionnée
     fetch('/crypto/api/cryptos/getAll')
         .then(response => response.json())
         .then(data => {
@@ -111,13 +133,15 @@ function updateCryptoDetailsGet(selectedCryptoSymbol) {
         })
         .catch(error => console.error('Erreur lors de la récupération des cryptos:', error));
 
+    // Récupérer le solde de la crypto sélectionnée pour l'utilisateur
     const balanceApiUrl = `/cryptoHolding/getUserCryptoBalance?walletId=${walletId}&symbol=${selectedCryptoSymbol}`;
 
     fetch(balanceApiUrl)
         .then(response => response.json())
         .then(data => {
             if (data.amount !== undefined) {
-                document.getElementById('cryptoBalanceGet').textContent = `Balance: ${data.amount} ${selectedCryptoSymbol}`;
+                const formattedAmount = formatTo8Digits(data.amount); // Limiter à 8 chiffres
+                document.getElementById('cryptoBalanceGet').textContent = `Balance: ${formattedAmount} ${selectedCryptoSymbol}`;
             } else {
                 console.error('Aucune balance trouvée');
             }
@@ -126,6 +150,7 @@ function updateCryptoDetailsGet(selectedCryptoSymbol) {
             console.error(`Erreur lors de la récupération de la balance pour l'URL: ${balanceApiUrl}`, error);
         });
 }
+
 // Fonction combinée pour activer/désactiver le bouton de confirmation
 
 function toggleConfirmButton() {

@@ -508,8 +508,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const transactionData = {
                 status: "Completed",
                 transactionType: "Exchange",
-                sendCryptoId: sendCryptoSymbol, // Identifiant ou symbole de la crypto envoyée
-                receiveCryptoId: receiveCryptoSymbol, // Identifiant ou symbole de la crypto reçue
+                sendCryptoSymbol: sendCryptoSymbol, // Identifiant ou symbole de la crypto envoyée
+                receiveCryptoSymbol: receiveCryptoSymbol, // Identifiant ou symbole de la crypto reçue
+                walletID: walletId,
+                sendAmount: sendAmount,
+                getAmount: receiveAmount,
             };
 
             await fetch('/transactions/create', {

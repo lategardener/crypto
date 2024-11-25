@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+
 
 @Entity
 @Table
@@ -37,7 +39,6 @@ public class CryptoHolding {
     @JsonManagedReference
     private Cryptocurrency cryptocurrency;
 
-
     public CryptoHolding(Double amount, String name, String symbol, Wallet wallet) {
         this.amount = amount;
         this.name = name;
@@ -58,7 +59,7 @@ public class CryptoHolding {
     }
 
     public Double getAmount() {
-        return amount;
+        return Math.floor(amount * 1_000_000_000) / 1_000_000_000;
     }
 
     public void setAmount(Double amount) {

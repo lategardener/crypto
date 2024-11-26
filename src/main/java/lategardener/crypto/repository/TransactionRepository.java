@@ -10,9 +10,12 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    @Query(value = "SELECT t.* FROM transaction_crypto t " +
-            "JOIN crypto_holding c ON t.crypto_holding_id = c.id " +
-            "WHERE c.wallet_id = :walletId", nativeQuery = true)
-    List<Transaction> findTransactionsByWalletId(Long walletId);
+    @Query(value = "SELECT DISTINCT tc.transaction_id " +
+            "FROM transaction_crypto tc " +
+            "JOIN crypto_holding ch ON tc.crypto_holding_id = ch.id " +
+            "WHERE ch.wallet_id = :walletId", nativeQuery = true)
+    List<Long> findTransactionIdsByWalletId(Long walletId);
 
+    @Query(value = "select t.amount from transaction_crypto t where t.crypto_holding_id=?2 and t.transaction_id = ?1", nativeQuery = true)
+    Double findTransactionAmountCrypto(Long transactionID, Long cryptoID);
 }

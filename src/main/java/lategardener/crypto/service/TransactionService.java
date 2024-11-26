@@ -2,12 +2,16 @@ package lategardener.crypto.service;
 
 import lategardener.crypto.model.CryptoHolding;
 import lategardener.crypto.model.Transaction;
+import lategardener.crypto.model.TransactionCryptoHolding;
+import lategardener.crypto.model.TransactionCryptoHoldingId;
 import lategardener.crypto.repository.CryptoHoldingRepository;
+import lategardener.crypto.repository.TransactionCryptoHoldingRepository;
 import lategardener.crypto.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -20,43 +24,68 @@ public class TransactionService {
     @Autowired
     private CryptoHoldingService cryptoHoldingService;
 
-    public Transaction saveTransaction(String status, String transactionType, String sendCryptoSymbol, String receiveCryptoSymbol, Long walletId, Double sendAmount, Double getAmount) {
-        // Création d'une nouvelle transaction
+    @Autowired
+    private TransactionCryptoHoldingRepository transactionCryptoHoldingRepository;
+
+    public void saveTransaction(String status, String transactionType, String sendCryptoSymbol, String receiveCryptoSymbol, Long walletId, Double sendAmount, Double getAmount) {
+        // Créer une nouvelle transaction
         Transaction transaction = new Transaction();
-        transaction.setDate(LocalDate.now());
+        transaction.setDate(LocalDateTime.now());
         transaction.setStatus(status);
         transaction.setTransactionType(transactionType);
 
-        Set<CryptoHolding> cryptoHoldings = new HashSet<>();
+        // Sauvegarder la transaction pour générer son ID
+        transaction = transactionRepository.save(transaction);
 
         // Récupérer les CryptoHoldings concernés par le symbole et le walletId
         CryptoHolding sendCrypto = cryptoHoldingService.getCryptoByNameAndWallet(walletId, sendCryptoSymbol);
-
         CryptoHolding receiveCrypto = cryptoHoldingService.getCryptoByNameAndWallet(walletId, receiveCryptoSymbol);
 
-        // Ajout des CryptoHoldings au Set
-        cryptoHoldings.add(sendCrypto);
-        cryptoHoldings.add(receiveCrypto);
+        // Enregistrer le TransactionCryptoHolding pour la crypto envoyée
+        TransactionCryptoHolding sendTransactionCryptoHolding = new TransactionCryptoHolding();
+        TransactionCryptoHoldingId sendTransactionCryptoHoldingId = new TransactionCryptoHoldingId();
+        sendTransactionCryptoHoldingId.setTransactionId(transaction.getId());
+        sendTransactionCryptoHoldingId.setCryptoHoldingId(sendCrypto.getId());
+        sendTransactionCryptoHolding.setId(sendTransactionCryptoHoldingId);
 
-        // Définir les CryptoHoldings dans la transaction
-        transaction.setCryptoHoldings(cryptoHoldings);
+        sendTransactionCryptoHolding.setTransaction(transaction);
+        sendTransactionCryptoHolding.setCryptoHolding(sendCrypto);
+        sendTransactionCryptoHolding.setAmount(-sendAmount); // Colonne supplémentaire
 
-        // Création d'une Map pour stocker les montants échangés
-        Map<CryptoHolding, Double> amounts = new HashMap<>();
-        amounts.put(sendCrypto, sendAmount); // Ajouter le montant envoyé
-        amounts.put(receiveCrypto, getAmount); // Ajouter le montant reçu
+        transactionCryptoHoldingRepository.save(sendTransactionCryptoHolding);
 
-        // Définir la Map des montants dans la transaction
+        // Enregistrer le TransactionCryptoHolding pour la crypto reçue
+        TransactionCryptoHolding receiveTransactionCryptoHolding = new TransactionCryptoHolding();
+        TransactionCryptoHoldingId receiveTransactionCryptoHoldingId = new TransactionCryptoHoldingId();
+        receiveTransactionCryptoHoldingId.setTransactionId(transaction.getId());
+        receiveTransactionCryptoHoldingId.setCryptoHoldingId(receiveCrypto.getId());
+        receiveTransactionCryptoHolding.setId(receiveTransactionCryptoHoldingId);
 
-        // Sauvegarder la transaction avec la mise à jour automatique de la table de jointure
-        return transactionRepository.save(transaction);
+        receiveTransactionCryptoHolding.setTransaction(transaction);
+        receiveTransactionCryptoHolding.setCryptoHolding(receiveCrypto);
+        receiveTransactionCryptoHolding.setAmount(getAmount); // Colonne supplémentaire
+
+        transactionCryptoHoldingRepository.save(receiveTransactionCryptoHolding);
     }
 
 
 
-    public List<Transaction> getTransactionsByWallet(Long walletId) {
-        return transactionRepository.findTransactionsByWalletId(walletId);
+    public List<Long> getTransactionsByWallet(Long walletId) {
+        return transactionRepository.findTransactionIdsByWalletId(walletId);
     }
 
+    public Double findTransactionAmountCrypto(Long transactionID, Long cryptoID){
+        return transactionRepository.findTransactionAmountCrypto(transactionID, cryptoID);
+    }
+
+    public Transaction findTransactionById(Long transactionID){
+        Optional<Transaction>  transaction = transactionRepository.findById(transactionID);
+        if (transaction.isPresent()){
+            return transaction.get();
+        }
+        else{
+            return  new Transaction();
+        }
+    }
 
 }

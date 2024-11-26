@@ -4,6 +4,58 @@
     font-family: 'Josefin Sans', sans-serif;
 }
 
+
+body {
+    background-color: #f5f6f8 !important;
+    overflow-y: hidden; /* Désactive le défilement vertical */
+}
+
+
+
+
+.sidebar {
+    background-color: white !important;
+    font-size: 14px;
+    width: 205px;
+    box-shadow: 0 4px 8px rgba(204, 206, 208, 0.3); /* Ombre pour effet de surélévation */
+
+}
+
+/* Styles par défaut pour les éléments de la navbar */
+.nav-item {
+    margin-bottom: 20px; /* Ajoute de l'espace sous chaque élément */
+    transition: all 0.3s ease; /* Transition douce pour l'effet de survol */
+}
+
+.nav-link {
+    padding-left: 15px; /* Augmente l'espace entre l'icône et le texte */
+    padding-right: 15px; /* Ajoute un peu de marge de chaque côté du lien */
+    border-radius: 20px; /* Bords arrondis */
+    transition: all 0.3s ease; /* Transition douce pour l'effet de survol */
+}
+
+/* Effet de survol */
+.nav-link-to-go:hover {
+    color: white !important;
+    background-color: #007bff; /* Fond bleu */
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Ombre pour effet de surélévation */
+    transform: translateY(-2px); /* Légère surélévation pour l'effet de survol */
+}
+
+
+/* Appliquer l'effet de survol également sur l'icône */
+.nav-link i {
+    transition: transform 0.3s ease;
+}
+
+/* Si tu veux que l'icône se déplace légèrement aussi pendant le survol */
+.nav-link:hover i {
+    transform: scale(1.1); /* Agrandir l'icône légèrement */
+}
+.ring{
+    margin-left: 1396px;
+}
+
 /* Center the row container within the viewport */
 .row {
     height: 100vh;
@@ -13,6 +65,7 @@
 .card_{
     box-shadow: 0px 0px 20px 5px #edebeb !important;
 }
+
 
 /* Structure de base des champs */
 .form-group {
@@ -27,7 +80,8 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 12px 12px 12px 15px;
-    font-size: 16px;
+    font-size: 20px !important;
+    height: 45px;
     width: 100%;
     outline: none;
     background-color: #fff;
@@ -39,11 +93,11 @@
 }
 
 /* Positionnement des labels */
-label {
+.label {
     position: absolute;
     top: 14px;
     left: 15px;
-    font-size: 16px;
+    font-size: 20px;
     color: #999;
     transition: all 0.3s ease;
     pointer-events: none;
@@ -85,11 +139,6 @@ button {
 }
 
 
-
-
-/*card */
-
-
 .card{
     width: 500px;
     height: 300px;
@@ -97,6 +146,17 @@ button {
     cursor: pointer;
     perspective: 1000px;
     box-shadow: none !important;
+}
+
+
+.box-crypto {
+    width: 500px;
+    height: 550px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
 }
 
 .card-inner{
@@ -220,4 +280,6 @@ button {
 .pattern{
     margin-top: -40px;
 }
+
+
 

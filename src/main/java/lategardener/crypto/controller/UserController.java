@@ -114,14 +114,21 @@ public class UserController {
 
     // Password and email validation for the sign-in page
     @PostMapping("/validate")
-    public ResponseEntity<String> validateUser(@RequestBody User user) {
-        boolean isValid = userService.validateUserCredentials(user.getEmail(), user.getPassword());
+    public ResponseEntity<String> validateUser(
+            @RequestParam("email") String email, @RequestParam("password") String password, HttpSession session) {
+
+        // Valider les identifiants
+        boolean isValid = userService.validateUserCredentials(email, password);
+
         if (isValid) {
+            User currentUser = userService.getUserByEmail(email);
+            session.setAttribute("currentUser", currentUser);
             return ResponseEntity.ok("valid");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+
 
     // user dashboard page
     @GetMapping(path = "/dashboard")

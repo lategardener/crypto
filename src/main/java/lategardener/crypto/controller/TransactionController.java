@@ -21,26 +21,45 @@ public class TransactionController {
 
     @PostMapping("/create")
     public ResponseEntity<Transaction> createTransaction(@RequestBody Map<String, Object> requestData) {
-        System.out.println("----------------------------Received requestData: ---------------------------------------" + requestData);
-
         String status = (String) requestData.get("status");
         String transactionType = (String) requestData.get("transactionType");
-        String sendCryptoId = (String) requestData.get("sendCryptoSymbol");
-        String receiveCryptoId = (String) requestData.get("receiveCryptoSymbol");
+        String sendCryptoSymbol = (String) requestData.get("sendCryptoSymbol");
+        String receiveCryptoSymbol = (String) requestData.get("receiveCryptoSymbol");
         Long walletId = ((Integer) requestData.get("walletID")).longValue();
+        Double sendAmount = parseToDouble(requestData.get("sendAmount"));
+        Double getAmount = parseToDouble(requestData.get("getAmount"));
 
-        Double sendAmount = ((Double) requestData.get("sendAmount")).doubleValue();
-        Double getAmount = ((Double) requestData.get("getAmount")).doubleValue();
+        transactionService.saveTransaction(status, transactionType, sendCryptoSymbol, receiveCryptoSymbol, walletId, sendAmount, getAmount);
 
-        Transaction transaction = transactionService.saveTransaction(status, transactionType, sendCryptoId, receiveCryptoId, walletId, sendAmount, getAmount);
-
-        return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    private Double parseToDouble(Object value) {
+        if (value instanceof Double) {
+            return (Double) value;  // Si c'est déjà un Double, on le retourne tel quel
+        } else if (value instanceof Number) {
+            return ((Number) value).doubleValue();  // Si c'est un autre type numérique, on le convertit en Double
+        }
+        return 0.0;  // Si ce n'est pas un nombre, on retourne 0.0 par défaut
+    }
+
+
     @GetMapping("/wallet/{walletId}/transactions")
-    public ResponseEntity<List<Transaction>> getTransactionsByWallet(@PathVariable Long walletId) {
-        List<Transaction> transactions = transactionService.getTransactionsByWallet(walletId);
+    public ResponseEntity<List<Long>> getTransactionsByWallet(@PathVariable Long walletId) {
+        List<Long> transactions = transactionService.getTransactionsByWallet(walletId);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @GetMapping("/{transactionId}/crypto/{cryptoId}/amount")
+    @ResponseBody
+    public Double getTransactionCryptoAmount(@PathVariable("transactionId") Long transactionId, @PathVariable("cryptoId") Long cryptoId) {
+        return transactionService.findTransactionAmountCrypto(transactionId, cryptoId);
+    }
+
+    @GetMapping("/{transactionId}")
+    @ResponseBody
+    public Transaction getTransactionById(@PathVariable("transactionId") Long transactionId) {
+        return transactionService.findTransactionById(transactionId);
     }
 
 

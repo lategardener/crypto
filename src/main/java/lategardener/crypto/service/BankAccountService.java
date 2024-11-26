@@ -64,4 +64,9 @@ public class BankAccountService {
         bankAccountRepository.save(bankAccount);
 
     }
+
+
+    public List<BankAccount> allUserBankAccount(Long userId){
+        return bankAccountRepository.allUserBankAccount(userId);
+    }
 }

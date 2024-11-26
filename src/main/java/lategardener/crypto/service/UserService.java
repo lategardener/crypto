@@ -64,4 +64,14 @@ public class UserService {
         System.out.println("User not present");
         return false;
     }
+
+    public User getUserByEmail(String email){
+        Optional<User> user = userRepository.findUserByEmail(email);
+        if (user.isPresent()){
+            return user.get();
+        }
+        else{
+            return new User();
+        }
+    }
 }

@@ -1,20 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&display=swap');
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    background-color: #f5f6f8 !important;
+
+*{
+    font-family: 'Josefin Sans', sans-serif;
 }
 
-
+body {
+    background-color: #f5f6f8 !important;
+    overflow-y: hidden; /* Désactive le défilement vertical */
+}
 
 
 .sidebar {
    background-color: white !important;
     font-size: 14px;
     width: 205px;
+    box-shadow: 0 4px 8px rgba(204, 206, 208, 0.3); /* Ombre pour effet de surélévation */
+
 }
 
 /* Styles par défaut pour les éléments de la navbar */
@@ -31,11 +40,17 @@ body {
 }
 
 /* Effet de survol */
-.nav-link:hover {
+.nav-link-to-go:hover {
     color: white !important;
     background-color: #007bff; /* Fond bleu */
     box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Ombre pour effet de surélévation */
     transform: translateY(-2px); /* Légère surélévation pour l'effet de survol */
+}
+
+.nav-link-current{
+    color: black !important;
+    background-color: #ffe800; /* Fond bleu */
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Ombre pour effet de surélévation */
 }
 
 /* Appliquer l'effet de survol également sur l'icône */
@@ -241,6 +256,68 @@ label{
     border-color: #d6d6d6; /* Bordure grise */
     cursor: not-allowed /* Curseur qui indique que l'interaction n'est pas possible */
 }
+
+
+
+/*Center Each element of transaction in its column*/
+table {
+    border-collapse: collapse; /* Supprimer les espaces entre les bordures */
+}
+
+th, td {
+    text-align: center; /* Centrer les textes horizontalement */
+    vertical-align: middle; /* Centrer les textes verticalement */
+    padding: -5px; /* Ajouter un peu d'espace autour des textes */
+}
+
+.table tbody {
+    font-weight:300;
+    font-size: 13px;
+}
+
+
+/* Style de transition pour les lignes du tableau */
+#transactions-table-body tr {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Transition de fondu */
+    transform: translateY(10px);
+}
+
+/* Quand la ligne est ajoutée, elle devient visible avec un effet de décalage */
+#transactions-table-body tr.added {
+    opacity: 1;
+    transform: translateY(0); /* Remet la ligne à sa position d'origine */
+}
+
+.status-completed {
+    color: green !important;
+    font-weight: bold !important;
+}
+
+.transaction-type-exchange {
+    color: blue !important;
+    font-weight: bold !important;
+}
+
+.transaction-logo{
+    width: 20%;
+    height: auto;
+}
+
+.amount-positive {
+    color: #07ad07 !important;
+    font-weight: bold !important;
+}
+
+.amount-negative {
+    font-weight: bold !important;
+    color: #ce0505 !important;
+}
+
+
+
+
+
 
 
 

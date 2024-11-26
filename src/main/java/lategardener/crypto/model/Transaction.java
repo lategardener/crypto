@@ -5,15 +5,17 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
 @Entity
 @Table
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate Date;
+    private LocalDateTime date;
     private String status;
     private String transactionType;
 
@@ -24,7 +26,6 @@ public class Transaction {
             joinColumns = @JoinColumn(name = "transaction_id"),
             inverseJoinColumns = @JoinColumn(name = "crypto_holding_id")
     )
-    @Size(min = 1, max = 2, message = "The number of cryptocurrenies involved in this operation has to be between 1 and 2")
     private Set<CryptoHolding> cryptoHoldings = new HashSet<>();
 
     public Long getId() {
@@ -35,12 +36,12 @@ public class Transaction {
         this.id = id;
     }
 
-    public LocalDate getDate() {
-        return Date;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setDate(LocalDate date) {
-        Date = date;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     public String getStatus() {

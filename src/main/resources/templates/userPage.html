@@ -27,31 +27,31 @@
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center text-black fw-bold" href="#">
+                        <a class="nav-link nav-link-current d-flex align-items-center text-black fw-bold" href="#">
                             <i class="bi bi-house-door me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center text-black fw-bold" href="#">
+                        <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="#">
                             <i class="bi bi-graph-up me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
                             <span>Portfolio</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center text-black fw-bold" href="#">
+                        <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="#">
                             <i class="bi bi-card-checklist me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
                             <span>Orders</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center text-black fw-bold" href="#">
+                        <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="#">
                             <i class="bi bi-wallet2 me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
                             <span>Wallet</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center text-black fw-bold" href="#">
+                        <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="#">
                             <i class="bi bi-person-plus me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
                             <span>Referral</span>
                         </a>
@@ -143,12 +143,12 @@
                     </div>
 
                     <!-- Bloc 2-->
-                    <div class="p-3" style="height: 230px; margin-top: -18px;">
-                        <h4>Tendency</h4>
+                    <div class="p-3" style="height: 230px; margin-top: -80px;">
+                        <h4 style="font-size: 1.3rem;">Tendency</h4>
                         <div class="row mt-4">
                             <!-- Afficher les 4 premières cryptos sous forme de cartes -->
                             <div class="col-md-3" th:each="crypto, iterStat : ${cryptocurrenciesSortedByPrice}" style="background-color: #f5f6f8;">
-                                <div class="card mb-3" style="width: 80%; height: 260px; background-color: #f5f6f8;">
+                                <div class="card mb-3" style="width: 80%; height: 220px; background-color: #f5f6f8;">
                                     <div class="card-body text-center box">
 
                                         <div class="crypto-name-wrapper" style="display: flex; align-items: center; justify-content: center">
@@ -161,7 +161,7 @@
 
 
                                         <!-- Graphique de l'évolution des prix -->
-                                        <canvas th:id="'cryptoChart' + ${iterStat.index}" style="width: 60%; height: 70px; margin-top: 25px"></canvas>
+                                        <canvas th:id="'cryptoChart' + ${iterStat.index}" style="width: 60%; height: 50px; margin-top: 25px"></canvas>
 
                                         <!-- Prix de la crypto -->
                                         <p class="card-text"
@@ -182,8 +182,26 @@
                     </div>
 
 
-
-                    <div class="p-3 bg-light border rounded" style="height: 270px; margin-top: 80px;"></div>
+                    <!--Bloc 3 -->
+                    <div class="p-3 box" style="height: 320px; margin-top: 30px;">
+                        <h2 style="font-size: 1.3rem;">Dernières Transactions</h2>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Time</th>
+                                <th>Currency</th>
+                                <th>Symbol</th>
+                                <th class="transaction-logo">Logo</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody id="transactions-table-body">
+                            <!-- Les lignes de transactions seront insérées ici via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Partie droite (30%) -->
@@ -269,7 +287,7 @@
 
                             <!-- Bouton de changement -->
                             <div class="my-2">
-                                <label for="sendAmount" class="form-label text-center" style="font-size: 12px;">YOU SEND</label>
+                                <label for="sendAmount" class="form-label text-center" style="font-size: 12px; margin-left: -8px; margin-bottom: -2px;">YOU SEND</label>
                                 <button id="exchangeButton" class="btn btn-outline-primary d-flex justify-content-center align-items-center"
                                         style="border-radius: 50%; width: 50px; height: 50px;">
                                     <i class="bi bi-arrow-down-up"></i>
@@ -356,5 +374,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/userPage.js"></script>
 <script src="/js/priceChart.js"></script>
+<script src="/js/transactionHistory.js"></script>
 </body>
 </html>

@@ -501,20 +501,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('cryptoBalanceGet').textContent = `Balance: ${formatTo8Digits(getBalance + receiveAmount)} ${getSymbol}`;
 
             // Réinitialiser les champs
-            document.getElementById('sendAmount').value = '';
-            document.getElementById('getAmount').value = '';
-
             // Enregistrer la transaction dans le backend
+
+
+
             const transactionData = {
                 status: "Completed",
                 transactionType: "Exchange",
                 sendCryptoSymbol: sendCryptoSymbol, // Identifiant ou symbole de la crypto envoyée
                 receiveCryptoSymbol: receiveCryptoSymbol, // Identifiant ou symbole de la crypto reçue
                 walletID: walletId,
-                sendAmount: sendAmount,
-                getAmount: receiveAmount,
+                sendAmount: parseFloat(sendAmount),
+                getAmount: parseFloat(receiveAmount),
             };
-
             await fetch('/transactions/create', {
                 method: "POST",
                 headers: {
@@ -522,6 +521,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify(transactionData),
             });
+
+            console.log(transactionData);
+
+
+            document.getElementById('sendAmount').value = '';
+            document.getElementById('getAmount').value = '';
 
             console.log("Transaction enregistrée avec succès");
 

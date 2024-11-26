@@ -1,29 +1,34 @@
 $(document).ready(function () {
-    $('#submitButton').click(function (event) {
-        event.preventDefault(); // Empêche l'envoi du formulaire classique
+    $(document).ready(function () {
+        $('#submitButton').click(function (event) {
+            event.preventDefault(); // Empêche l'envoi du formulaire classique
 
-        // Collecte les données du formulaire
-        const formData = {
-            email: $('#floatingEmail').val(),
-            password: $('#floatingPassword').val()
-        };
+            // Collecte les données du formulaire
+            const formData = {
+                email: $('#floatingEmail').val(),
+                password: $('#floatingPassword').val()
+            };
 
-        // Envoi de la requête AJAX
-        $.ajax({
-            url: '/user/validate',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
-            success: function (response) {
-                if (response === 'valid') {
-                    window.location.href = '/user/dashboard'; // Redirige si les infos sont valides
-                } else {
+            console.log(JSON.stringify(formData));
+
+            // Envoi de la requête AJAX
+            $.ajax({
+                url: '/user/validate', // L'URL où les données seront envoyées
+                type: 'POST',          // La méthode HTTP utilisée
+                data: formData,        // Les données envoyées (sous forme de clé-valeur)
+                success: function (response) {
+                    // Code exécuté si la requête réussit
+                    if (response === 'valid') {
+                        window.location.href = '/user/dashboard'; // Redirection si l'authentification est valide
+                    } else {
+                        $('#inputError').text('Invalid email or password'); // Affiche un message d'erreur si invalide
+                    }
+                },
+                error: function () {
+                    // Code exécuté si la requête échoue
                     $('#inputError').text('Invalid email or password');
                 }
-            },
-            error: function () {
-                $('#inputError').text('Invalid email or password');
-            }
+            });
         });
     });
 

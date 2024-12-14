@@ -68,6 +68,35 @@ public class TransactionService {
         transactionCryptoHoldingRepository.save(receiveTransactionCryptoHolding);
     }
 
+    public void saveTransactionBuy(String status, String transactionType, String cryptoSymbol, Long walletId,  Double getAmount) {
+        // Créer une nouvelle transaction
+        Transaction transaction = new Transaction();
+        transaction.setDate(LocalDateTime.now());
+        transaction.setStatus(status);
+        transaction.setTransactionType(transactionType);
+
+        // Sauvegarder la transaction pour générer son ID
+        transaction = transactionRepository.save(transaction);
+
+        // Récupérer les CryptoHoldings concernés par le symbole et le walletId
+        CryptoHolding crypto = cryptoHoldingService.getCryptoByNameAndWallet(walletId, cryptoSymbol);
+
+
+
+        // Enregistrer le TransactionCryptoHolding pour la crypto reçue
+        TransactionCryptoHolding receiveTransactionCryptoHolding = new TransactionCryptoHolding();
+        TransactionCryptoHoldingId receiveTransactionCryptoHoldingId = new TransactionCryptoHoldingId();
+        receiveTransactionCryptoHoldingId.setTransactionId(transaction.getId());
+        receiveTransactionCryptoHoldingId.setCryptoHoldingId(crypto.getId());
+        receiveTransactionCryptoHolding.setId(receiveTransactionCryptoHoldingId);
+
+        receiveTransactionCryptoHolding.setTransaction(transaction);
+        receiveTransactionCryptoHolding.setCryptoHolding(crypto);
+        receiveTransactionCryptoHolding.setAmount(getAmount); // Colonne supplémentaire
+
+        transactionCryptoHoldingRepository.save(receiveTransactionCryptoHolding);
+    }
+
 
 
     public List<Long> getTransactionsByWallet(Long walletId) {

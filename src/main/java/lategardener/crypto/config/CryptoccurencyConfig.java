@@ -23,12 +23,15 @@ public class CryptoccurencyConfig {
     @Bean
     CommandLineRunner commandLineRunner(CryptocurrencyService cryptocurrencyService){
         return args -> {
-            cryptocurrencyService.addCrypto("BTCUSDT");
-            cryptocurrencyService.addCrypto("TONUSDT");
-            cryptocurrencyService.addCrypto("ETHUSDT");
-            cryptocurrencyService.addCrypto("BNBUSDT");
-            cryptocurrencyService.addCrypto("ADAUSDT");
-            cryptocurrencyService.addCrypto("SOLUSDT");
+
+            if (cryptocurrencyService.getCryptocurrency("BTC") == null){
+                cryptocurrencyService.addCrypto("BTCUSDT");
+                cryptocurrencyService.addCrypto("TONUSDT");
+                cryptocurrencyService.addCrypto("ETHUSDT");
+                cryptocurrencyService.addCrypto("BNBUSDT");
+                cryptocurrencyService.addCrypto("ADAUSDT");
+                cryptocurrencyService.addCrypto("SOLUSDT");
+            }
         };
     }
 }

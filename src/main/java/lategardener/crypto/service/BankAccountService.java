@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -68,5 +69,14 @@ public class BankAccountService {
 
     public List<BankAccount> allUserBankAccount(Long userId){
         return bankAccountRepository.allUserBankAccount(userId);
+    }
+
+    public void updateBalance(Long bank_id, Double newBalance){
+        Optional<BankAccount> bankAccount = bankAccountRepository.findById(bank_id);
+        if (bankAccount.isPresent()){
+            bankAccount.get().setBalance(newBalance);
+            bankAccountRepository.save(bankAccount.get());
+        }
+
     }
 }

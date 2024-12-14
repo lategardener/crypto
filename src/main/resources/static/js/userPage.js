@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const ALPHA = 0.2; // Opacité des couleurs pour le remplissage
     let cryptoPieChart = null; // Variable pour stocker l'instance du graphique en forme de beignet
 
+    // Exporter les fonctions pour qu'elles soient accessibles globalement
+    window.fetchUpdatedCryptoHoldings = fetchUpdatedCryptoHoldings;
+    window.updateOrCreateCryptoChart = updateOrCreateCryptoChart;
+
+
     // Fonction pour choisir une couleur aléatoire avec opacité
     function getRandomColorWithAlpha() {
         const randomIndex = Math.floor(Math.random() * COLORS2.length);
@@ -482,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Mise à jour des quantités dans le backend
-            await fetch(`/cryptoHolding/addAmount?walletId=${walletId}&cryptoSymbol=${sendCryptoSymbol}&newQuantity=${sendAmount}`, {
+            await fetch(`/cryptoHolding/deductAmount?walletId=${walletId}&cryptoSymbol=${sendCryptoSymbol}&newQuantity=${sendAmount}`, {
                 method: "PUT",
             });
 
@@ -573,10 +578,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    async function fetchUpdatedCryptoHoldings() {
+    async function fetchUpdatedCryptoHoldings(walletID) {
         try {
             // Remplacez l'URL par l'endpoint réel de votre API
-            const response = await fetch(`/wallet/api/wallet/${walletId}`);
+            const response = await fetch(`/wallet/api/wallet/${walletID}`);
 
             // Vérifier si la réponse de l'API est valide
             if (!response.ok) {
@@ -586,18 +591,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Récupérer le portefeuille en tant qu'objet
             const wallet = await response.json();
             console.log(wallet);
+            console.log(wallet.cryptoHoldings);
 
             // Assurez-vous que le portefeuille contient la propriété "cryptos" (ou ce que vous utilisez dans votre réponse)
-            if (wallet && Array.isArray(wallet.cryptoHoldings)) {
-                // Retourner les cryptos mises à jour
-                return wallet.cryptoHoldings;
-            } else {
-                throw new Error('Les données des cryptos sont manquantes dans la réponse');
-            }
+            return wallet.cryptoHoldings;
         } catch (error) {
             console.error("Erreur lors de la récupération des données du portefeuille:", error);
             return null;
         }
     }
+
+
 
 });

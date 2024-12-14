@@ -15,7 +15,7 @@ public class Wallet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String adresse;
+    private String address;
     private String name;
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -28,7 +28,7 @@ public class Wallet {
 
 
     public Wallet(String adresse, String name, User user) {
-        this.adresse = adresse;
+        this.address = adresse;
         this.name = name;
         this.user = user;
     }
@@ -45,11 +45,11 @@ public class Wallet {
     }
 
     public String getAdresse() {
-        return adresse;
+        return address;
     }
 
     public void setAdresse(String adresse) {
-        this.adresse = adresse;
+        this.address = adresse;
     }
 
     public String getName() {

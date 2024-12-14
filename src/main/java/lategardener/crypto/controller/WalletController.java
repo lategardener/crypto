@@ -21,4 +21,10 @@ public class WalletController {
         return walletService.getWallet(walletId);
     }
 
+    @GetMapping(path = "/api/walletAddress/")
+    @ResponseBody
+    public Wallet getWalletByAddress(@RequestParam String address){
+        return walletService.getWalletByAddress(address);
+    }
+
 }

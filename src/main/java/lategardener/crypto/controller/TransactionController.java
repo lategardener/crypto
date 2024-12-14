@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +62,26 @@ public class TransactionController {
     public Transaction getTransactionById(@PathVariable("transactionId") Long transactionId) {
         return transactionService.findTransactionById(transactionId);
     }
+
+    @PostMapping("/transactionBuy/create")
+    public ResponseEntity<Map<String, Object>> createTransactionBuy(@RequestBody Map<String, Object> requestData) {
+        String status = (String) requestData.get("status");
+        String transactionType = (String) requestData.get("transactionType");
+        String cryptoSymbol = (String) requestData.get("symbol");
+        Double getAmount = parseToDouble(requestData.get("amount"));
+        Long walletId = ((Integer) requestData.get("walletID")).longValue();
+
+        // Appeler le service pour sauvegarder la transaction
+        transactionService.saveTransactionBuy(status, transactionType, cryptoSymbol, walletId, getAmount);
+
+        // Créer une réponse JSON personnalisée
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Transaction created successfully");
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
 
 
 }

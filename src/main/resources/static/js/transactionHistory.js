@@ -81,5 +81,5 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchTransactions();
 
     // Rafraîchir toutes les 10 secondes
-    setInterval(fetchTransactions, 2000); // 10000 ms = 10 secondes
+    setInterval(fetchTransactions, 1000); // 10000 ms = 10 secondes
 });

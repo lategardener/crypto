@@ -1,12 +1,17 @@
 package lategardener.crypto.controller;
 
 
+import jakarta.servlet.http.HttpSession;
 import lategardener.crypto.model.CryptoHolding;
+import lategardener.crypto.model.User;
+import lategardener.crypto.model.Wallet;
 import lategardener.crypto.service.CryptoHoldingService;
+import lategardener.crypto.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,6 +24,9 @@ public class CryptoHoldingController {
     @Autowired
     private CryptoHoldingService cryptoHoldingService;
 
+    @Autowired
+    private WalletService walletService;
+
     @GetMapping("/getUserCryptoBalance")
     @ResponseBody
     public Map<String, Double> getUserCryptoBalance(@RequestParam Long walletId, @RequestParam String symbol) {
@@ -28,7 +36,7 @@ public class CryptoHoldingController {
         return response;
     }
 
-    @PutMapping("/addAmount")
+    @PutMapping("/deductAmount")
     public ResponseEntity<String> reduceCryptoAmount(@RequestParam Long walletId,
                                                @RequestParam String cryptoSymbol,
                                                @RequestParam double newQuantity) {
@@ -57,7 +65,23 @@ public class CryptoHoldingController {
         }
     }
 
+    @GetMapping(path = "/send")
+    public String cryptoPaymentPage(HttpSession session, Model model){
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser != null) {
+            // Current user
+            model.addAttribute("user", currentUser);
+            // ajouter toutes les cryptos disponibles
+            Wallet defaultWallet = walletService.getUserDefaultWallet(currentUser.getId());
+            model.addAttribute("defaultWallet", defaultWallet);
+            model.addAttribute("userCryptos", defaultWallet.getCryptoHoldings());
 
+        }
+        else{
+            throw new IllegalStateException("User not connected");
+        }
+        return "cryptoSendPage";
+    }
 
 
 }

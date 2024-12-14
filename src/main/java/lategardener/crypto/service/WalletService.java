@@ -88,7 +88,16 @@ public class WalletService {
         else{
             return new Wallet();
         }
+    }
 
+    public Wallet getWalletByAddress (String address){
+        Optional<Wallet> wallet = walletRepository.walletByWalletAddress(address);
+        if(wallet.isPresent()){
+            return wallet.get();
+        }
+        else{
+            return new Wallet();
+        }
     }
 
 }

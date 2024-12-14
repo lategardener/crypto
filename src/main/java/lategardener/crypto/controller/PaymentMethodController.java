@@ -3,9 +3,11 @@ package lategardener.crypto.controller;
 import jakarta.servlet.http.HttpSession;
 import lategardener.crypto.model.PaymentMethod;
 import lategardener.crypto.model.User;
+import lategardener.crypto.model.Wallet;
 import lategardener.crypto.service.BankAccountService;
 import lategardener.crypto.service.CryptocurrencyService;
 import lategardener.crypto.service.PaymentMethodService;
+import lategardener.crypto.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,11 @@ public class PaymentMethodController {
     @Autowired
     private BankAccountService bankAccountService;
 
+    @Autowired
+    private WalletService walletService;
+
+
+
     @GetMapping(path = "/add/{user_id}")
     public String registration(Model model, @PathVariable ("user_id") Long id){
         model.addAttribute("paymentMethod", new PaymentMethod());
@@ -43,6 +50,12 @@ public class PaymentMethodController {
             // ajouter toutes les cryptos disponibles
             model.addAttribute("AvailableCryptos", cryptocurrencyService.getAllCryptoccurencies());
             model.addAttribute("bankAccounts", bankAccountService.allUserBankAccount(currentUser.getId()));
+            Wallet defaultWallet = walletService.getUserDefaultWallet(currentUser.getId());
+            model.addAttribute("defaultWallet", defaultWallet);
+
+        }
+        else{
+            throw new IllegalStateException("not happy");
         }
         return "cryptoPaymentPage";
     }

@@ -20,6 +20,12 @@ public class CryptocurrencyController {
     CryptocurrencyService cryptocurrencyService;
 
 //    REST API
+    @GetMapping(path = "/api/crypto/get/")
+    @ResponseBody
+    public Cryptocurrency getAllCrypto(@RequestParam String symbol){
+        return cryptocurrencyService.getCryptocurrency(symbol);
+    }
+
     @GetMapping(path = "/api/cryptos/getAll")
     @ResponseBody
     public List<Cryptocurrency> getAllCryptocurrencies(){

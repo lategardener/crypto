@@ -3,9 +3,11 @@ package lategardener.crypto.controller;
 
 import jakarta.servlet.http.HttpSession;
 import lategardener.crypto.model.CryptoHolding;
+import lategardener.crypto.model.Cryptocurrency;
 import lategardener.crypto.model.User;
 import lategardener.crypto.model.Wallet;
 import lategardener.crypto.service.CryptoHoldingService;
+import lategardener.crypto.service.CryptocurrencyService;
 import lategardener.crypto.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -25,7 +28,17 @@ public class CryptoHoldingController {
     private CryptoHoldingService cryptoHoldingService;
 
     @Autowired
+    private CryptocurrencyService cryptocurrencyService;
+
+    @Autowired
     private WalletService walletService;
+
+
+    @GetMapping(path = "/api/getExchangeCryptos/{walletId}")
+    @ResponseBody
+    public List<CryptoHolding> getAllCryptoToExchange(@PathVariable ("walletId") Long walletId){
+        return cryptoHoldingService.getAllExchangeableCryptos(walletId);
+    }
 
     @GetMapping("/getUserCryptoBalance")
     @ResponseBody
@@ -66,7 +79,7 @@ public class CryptoHoldingController {
     }
 
     @GetMapping(path = "/send")
-    public String cryptoPaymentPage(HttpSession session, Model model){
+    public String cryptoSendingPage(HttpSession session, Model model){
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser != null) {
             // Current user
@@ -81,6 +94,25 @@ public class CryptoHoldingController {
             throw new IllegalStateException("User not connected");
         }
         return "cryptoSendPage";
+    }
+
+    @GetMapping(path = "/sell")
+    public String cryptoSellingPage(HttpSession session, Model model){
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser != null) {
+            // Current user
+            model.addAttribute("user", currentUser);
+            // ajouter toutes les cryptos disponibles
+            Wallet defaultWallet = walletService.getUserDefaultWallet(currentUser.getId());
+            model.addAttribute("defaultWallet", defaultWallet);
+            model.addAttribute("userCryptos", cryptoHoldingService.getAllExchangeableCryptos(defaultWallet.getId()));
+            model.addAttribute("usdc", cryptocurrencyService.getCryptocurrency("USDC"));
+            model.addAttribute("usdcOwned", cryptoHoldingService.getCryptoByNameAndWallet(defaultWallet.getId(), "USDC"));
+        }
+        else{
+            throw new IllegalStateException("User not connected");
+        }
+        return "cryptoSellingPage";
     }
 
 

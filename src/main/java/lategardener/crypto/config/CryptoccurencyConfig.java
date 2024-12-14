@@ -31,6 +31,7 @@ public class CryptoccurencyConfig {
                 cryptocurrencyService.addCrypto("BNBUSDT");
                 cryptocurrencyService.addCrypto("ADAUSDT");
                 cryptocurrencyService.addCrypto("SOLUSDT");
+                cryptocurrencyService.addCrypto("USDCUSDT");
             }
         };
     }

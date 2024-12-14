@@ -2,11 +2,13 @@ package lategardener.crypto.service;
 
 
 import lategardener.crypto.model.CryptoHolding;
+import lategardener.crypto.model.Cryptocurrency;
 import lategardener.crypto.repository.CryptoHoldingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.AccessType;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +21,12 @@ public class CryptoHoldingService {
 
     @Autowired
     WalletService walletService;
+
+
+    public List<CryptoHolding> getAllExchangeableCryptos(Long walletId){
+        return cryptoHoldingRepository.findAllExchangeableCryptos(walletId);
+    }
+
 
     public CryptoHolding getCryptoByNameAndWallet(Long wallet_id, String symbol){
         Optional<CryptoHolding> crypto = cryptoHoldingRepository.findHoldingByWalletIdAndSymbol(wallet_id, symbol);

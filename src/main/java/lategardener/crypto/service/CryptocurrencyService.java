@@ -163,6 +163,10 @@ public class CryptocurrencyService {
         return cryptocurrencyRepository.findAll();
     }
 
+    public List<Cryptocurrency> getAllExchangeableCryptos(){
+        return cryptocurrencyRepository.findAllExchangeableCryptos();
+    }
+
     public void updatePriceChangePercent() {
         // Récupérer toutes les cryptos stockées
         List<Cryptocurrency> allCryptos = cryptocurrencyRepository.findAll();

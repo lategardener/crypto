@@ -151,6 +151,7 @@ public class UserController {
 
             // ajouter toutes les criptos disponibles
             model.addAttribute("AvailableCryptos", cryptocurrencyService.getAllCryptoccurencies());
+            model.addAttribute("ExchangeableCryptos", cryptocurrencyService.getAllExchangeableCryptos());
 
             // ajouter le bitcoin et l'ethereum comme crypto par défaut d'echange
             model.addAttribute("defaultSendCrypto", cryptocurrencyService.getCryptocurrency("BTC"));

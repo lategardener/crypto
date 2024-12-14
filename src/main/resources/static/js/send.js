@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const transactionData = {
                 status: "Completed",
                 transactionType: "Send",
-                amount: parseFloat(amountInputFloat),
+                amount: parseFloat(-amountInputFloat),
                 symbol: symbol,
                 walletID: walletId,
             };
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     walletID: recipientWallet.id,
                 };
 
-                const recipientTransactionResponse = await fetch('/transaction/create', {
+                const recipientTransactionResponse = await fetch('/transactions/transactionBuy/create', {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(recipientTransactionData),

@@ -3,7 +3,7 @@
 LateCrypto est une plateforme de trading qui permet d'acheter, vendre, envoyer, retirer et échanger des cryptomonnaies.
 
 # Accéder à tous les utilisateurs et leurs informations : http://localhost:8080/user/api/getUsers
-# Accéder à la page d'accueil : http://localhost:8080/crypto/homePage (les informations sur la page d'accueil peuvent prendre du temps à charger parce qu'elle sont issues de l'API de Binance qui est une plateforme de cryptomonnaie)
+# Accéder à la page d'accueil : http://localhost:8080/crypto/homePage (les informations sur la page d'accueil peuvent prendre du temps à charger parce qu'elles sont issues de l'API de Binance qui est une plateforme de cryptomonnaie)
 
 # Deux utilisateurs ont déja été crées et des actions ont déja été éffectuées. Connectez-vous avec leurs identifiants pour un aperçu rapide!
 

@@ -33,7 +33,7 @@ LateCrypto est une plateforme de trading qui permet d'acheter, vendre, envoyer, 
   - Validation des transactions (exemple : vérification des fonds disponibles avant un retrait, un envoi, un échange; vérification de solde avant achat de cryptomonnaies).✅
 
 ### **1.4 Repository Git**
-- Le code source est disponible dans un repository Git (à préciser : Github/Gitlab). ✅
+- Le code source est disponible dans un repository Github. ✅
   - **Commits réguliers** : Oui (étant l'unique membre du groupe). ✅
 
 ---

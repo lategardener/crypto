@@ -29,11 +29,6 @@ body {
 
 
 
-/*form */
-/*.card_{*/
-/*    box-shadow: 0px 0px 20px 5px #edebeb !important;*/
-/*}*/
-
 /* Structure de base des champs */
 .form-group {
     position: relative;
@@ -134,4 +129,10 @@ p {
     margin-top:0;
     margin-bottom:1rem;
     font-size: 14px;
+}
+
+
+/* Bouton de retour*/
+.back-link:hover {
+    color: #0056b3; /* Couleur de la flèche au survol */
 }

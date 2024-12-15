@@ -71,12 +71,6 @@ public class UserController {
 
     // API
 
-    @GetMapping(path = "/registration")
-    public String registration(Model model){
-        model.addAttribute("user", new User());
-        return "registration";
-    }
-
     // Sign up page
     @GetMapping(path = "/signUp")
     public String signUpPage(Model model){

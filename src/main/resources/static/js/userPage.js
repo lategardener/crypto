@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // Récupérer et mettre à jour les données
-            const updatedHoldings = await fetchUpdatedCryptoHoldings();
+            const updatedHoldings = await fetchUpdatedCryptoHoldings(walletId);
             if (updatedHoldings) {
                 updateOrCreateCryptoChart(updatedHoldings);
             }

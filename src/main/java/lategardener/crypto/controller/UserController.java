@@ -5,10 +5,7 @@ import lategardener.crypto.model.CryptoHolding;
 import lategardener.crypto.model.User;
 import lategardener.crypto.model.Wallet;
 import lategardener.crypto.model.Cryptocurrency;
-import lategardener.crypto.service.CryptoHoldingService;
-import lategardener.crypto.service.CryptocurrencyService;
-import lategardener.crypto.service.UserService;
-import lategardener.crypto.service.WalletService;
+import lategardener.crypto.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +29,12 @@ public class UserController {
 
     @Autowired
     private CryptocurrencyService cryptocurrencyService;
+
     @Autowired
     private CryptoHoldingService cryptoHoldingService;
+
+    @Autowired
+    private ProfileService profileService;
 
    // REST API
 
@@ -140,6 +141,7 @@ public class UserController {
             // Default wallet of this current user (which contains the list of his cryptos)
             Wallet defaultWallet = walletService.getUserDefaultWallet(currentUser.getId());
             model.addAttribute("defaultWallet", defaultWallet);
+            model.addAttribute("profile", profileService.getprofile(currentUser.getId()));
 
             // Trier les cryptos disponible par prix décroissant et prendre les 4 premières
             List<Cryptocurrency> cryptocurrenciesSortedByPrice = cryptocurrencyService.getAllCryptoccurencies()

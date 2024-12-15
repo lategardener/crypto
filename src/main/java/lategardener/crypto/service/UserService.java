@@ -22,6 +22,9 @@ public class UserService {
     private BankAccountService bankAccountService;
 
     @Autowired
+    private ProfileService profileService;
+
+    @Autowired
     private WalletService walletService;
 
     public List<User> getAllUsers(){
@@ -38,6 +41,7 @@ public class UserService {
         userRepository.save(user);
         bankAccountService.createBankAccountForUser(user);
         walletService.createUserWallet(user);
+        profileService.createUserProfile(user);
         return null;
     }
 

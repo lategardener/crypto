@@ -8,6 +8,7 @@ import lategardener.crypto.model.User;
 import lategardener.crypto.model.Wallet;
 import lategardener.crypto.service.CryptoHoldingService;
 import lategardener.crypto.service.CryptocurrencyService;
+import lategardener.crypto.service.ProfileService;
 import lategardener.crypto.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,10 @@ public class CryptoHoldingController {
 
     @Autowired
     private WalletService walletService;
+
+    @Autowired
+    private ProfileService profileService;
+
 
 
     @GetMapping(path = "/api/getExchangeCryptos/{walletId}")
@@ -88,6 +93,8 @@ public class CryptoHoldingController {
             Wallet defaultWallet = walletService.getUserDefaultWallet(currentUser.getId());
             model.addAttribute("defaultWallet", defaultWallet);
             model.addAttribute("userCryptos", defaultWallet.getCryptoHoldings());
+            model.addAttribute("profile", profileService.getprofile(currentUser.getId()));
+
 
         }
         else{
@@ -108,11 +115,32 @@ public class CryptoHoldingController {
             model.addAttribute("userCryptos", cryptoHoldingService.getAllExchangeableCryptos(defaultWallet.getId()));
             model.addAttribute("usdc", cryptocurrencyService.getCryptocurrency("USDC"));
             model.addAttribute("usdcOwned", cryptoHoldingService.getCryptoByNameAndWallet(defaultWallet.getId(), "USDC"));
+            model.addAttribute("profile", profileService.getprofile(currentUser.getId()));
+
         }
         else{
             throw new IllegalStateException("User not connected");
         }
         return "cryptoSellingPage";
+    }
+
+    @GetMapping(path = "/withdraw")
+    public String cryptoWithdrawingPage(HttpSession session, Model model){
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser != null) {
+            // Current user
+            model.addAttribute("user", currentUser);
+            // ajouter toutes les cryptos disponibles
+            Wallet defaultWallet = walletService.getUserDefaultWallet(currentUser.getId());
+            model.addAttribute("defaultWallet", defaultWallet);
+            model.addAttribute("usdcOwned", cryptoHoldingService.getCryptoByNameAndWallet(defaultWallet.getId(), "USDC"));
+            model.addAttribute("profile", profileService.getprofile(currentUser.getId()));
+
+        }
+        else{
+            throw new IllegalStateException("User not connected");
+        }
+        return "cryptoWithdrawPage";
     }
 
 

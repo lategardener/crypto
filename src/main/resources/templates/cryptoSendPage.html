@@ -67,23 +67,16 @@
 
                 <!-- Conteneur des éléments à droite -->
                 <div class="d-flex justify-content-end align-items-center">
-                    <!-- Notifications -->
-                    <div class="dropdown ring me-3">
-                        <a data-mdb-dropdown-init class="link-secondary me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" aria-expanded="false">
-                            <i class="fas fa-bell"></i>
-                            <span class="badge rounded-pill badge-notification bg-danger">1</span>
-                        </a>
-                    </div>
 
                     <!-- Avatar -->
                     <div class="dropdown">
                         <a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
-                            <img src="/img/profile_picture/photo.jpg" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy"/>
+                            <img th:src="@{/img/avatar/{path}(path=${profile.getAvatar()})}" class="rounded-circle" height="50" alt="Avatar" loading="lazy" />
                         </a>
                     </div>
 
                     <!-- Prénom et Nom -->
-                    <div class="ms-3 fw-light" style="font-size: 12px;">
+                    <div class="ms-3 fw-light" style="font-size: 14px;">
                         <span th:text="${user.getLastName()} + ' ' + ${user.getFirstName()}"></span> <!-- Prénom et Nom -->
                     </div>
                 </div>

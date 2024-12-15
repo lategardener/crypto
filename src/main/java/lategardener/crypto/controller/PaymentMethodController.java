@@ -4,10 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import lategardener.crypto.model.PaymentMethod;
 import lategardener.crypto.model.User;
 import lategardener.crypto.model.Wallet;
-import lategardener.crypto.service.BankAccountService;
-import lategardener.crypto.service.CryptocurrencyService;
-import lategardener.crypto.service.PaymentMethodService;
-import lategardener.crypto.service.WalletService;
+import lategardener.crypto.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +29,8 @@ public class PaymentMethodController {
     @Autowired
     private WalletService walletService;
 
+    @Autowired
+    private ProfileService profileService;
 
 
     @GetMapping(path = "/add/{user_id}")
@@ -52,6 +51,8 @@ public class PaymentMethodController {
             model.addAttribute("bankAccounts", bankAccountService.allUserBankAccount(currentUser.getId()));
             Wallet defaultWallet = walletService.getUserDefaultWallet(currentUser.getId());
             model.addAttribute("defaultWallet", defaultWallet);
+            model.addAttribute("profile", profileService.getprofile(currentUser.getId()));
+
 
         }
         else{

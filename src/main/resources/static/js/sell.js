@@ -190,7 +190,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log('Transaction  créée avec succès');
 
                 const usdcOwnedSpan = document.querySelector('#usdcOwned');
-                usdcOwnedSpan.innerText = `${totalPriceInUsdc}`; // Afficher le total price en USDC avec 2 décimales
+
+                let existingAmount = parseFloat(usdcOwnedSpan.innerText);
+
+                if (isNaN(existingAmount)) {
+                    existingAmount = 0;
+                }
+
+                const newTotal = existingAmount + totalPriceInUsdc;
+
+                usdcOwnedSpan.innerText = `${newTotal.toFixed(2)}`; // Afficher avec 2 décimales
+
 
             } catch (error) {
                 Swal.fire({
@@ -205,21 +215,19 @@ document.addEventListener("DOMContentLoaded", () => {
             cryptoAmountInput.value = "";
             document.getElementById('calculatedPrice').value = "";
 
-            if (typeof window.fetchUpdatedCryptoHoldings === "function") {
-                const updatedHoldings = await fetchUpdatedCryptoHoldings(walletId);
-                console.log(updatedHoldings);
+            const updatedHoldings = await fetchUpdatedCryptoHoldings(walletId);
+            console.log(updatedHoldings);
 
-                // Mettre à jour le menu déroulant avec les nouvelles données
-                updateDropdownMenu(updatedHoldings);
+            // Mettre à jour le menu déroulant avec les nouvelles données
+            updateDropdownMenu(updatedHoldings);
 
-                // Mettre à jour l'affichage de la crypto sélectionnée avec la nouvelle quantité
-                const updatedCrypto = updatedHoldings.find(crypto => crypto.symbol === symbol);
-                if (updatedCrypto) {
-                    selectedCryptoDiv.textContent = `Selected: ${symbol} (Amount owned: $${updatedCrypto.amount})`;
-                }
-            } else {
-                console.error("La fonction fetchUpdatedCryptoHoldings n'est pas définie.");
+            // Mettre à jour l'affichage de la crypto sélectionnée avec la nouvelle quantité
+            const updatedCrypto = updatedHoldings.find(crypto => crypto.symbol === symbol);
+            if (updatedCrypto) {
+                console.log(updatedCrypto.amount);
+                selectedCryptoDiv.textContent = `Selected: ${symbol} (Amount owned: $${updatedCrypto.amount})`;
             }
+
 
             // Afficher SweetAlert de succès après la vente
             Swal.fire(

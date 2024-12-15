@@ -1,5 +1,6 @@
 package lategardener.crypto.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
@@ -14,10 +15,6 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-
-    private String lastName;
-
     @Past(message = "Date of birth has to be in the past")
     private LocalDate dateOfBirth;
 
@@ -25,18 +22,20 @@ public class Profile {
 
     private String address;
 
+    private String avatarPath;
+
     @OneToOne(optional = true)
     @JoinColumn(name = "user_id", nullable = true)
-    @JsonManagedReference
+    @JsonBackReference
     private User user;
 
-    public Profile(String firstName, String lastName, LocalDate dateOfBirth, String phoneNumber, String address, User user) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Profile(LocalDate dateOfBirth, String phoneNumber, String address, User user, String avatarPath) {
+
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.user = user;
+        this.avatarPath = avatarPath;
     }
 
     public Profile() {
@@ -50,28 +49,20 @@ public class Profile {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getAvatar() {
+        return avatarPath;
+    }
+
+    public void setAvatar(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 
     public String getPhoneNumber() {
@@ -97,4 +88,6 @@ public class Profile {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 }

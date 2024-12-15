@@ -283,6 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fonction pour mettre à jour la valeur totale affichée
     function updateTotalValueDisplay(totalValue) {
         const totalValueElement = document.getElementById('totalValue');
+        console.log(totalValue);
         totalValueElement.textContent = totalValue.toFixed(2) + " USD";
 
         // Vérification de l'augmentation ou de la diminution

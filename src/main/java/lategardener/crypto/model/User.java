@@ -33,7 +33,7 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     private Profile profile;
 
 

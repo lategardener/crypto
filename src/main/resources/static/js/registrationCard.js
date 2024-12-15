@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mise à jour du nom du titulaire de la carte
     cardHolderInput.addEventListener('input', function() {
         let input = cardHolderInput.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 12); // Limite à 12 caractères, lettres uniquement
-        cardHolderElement.textContent = input.toUpperCase() || 'CARD HOLDER';
         cardHolderInput.value = input;
     });
 

@@ -48,7 +48,10 @@ public class WalletService {
         CryptoHolding cryptoHolding5 = new CryptoHolding(25.36, "Toncoin", "TON", wallet);
         cryptoHolding5.setCryptocurrency(cryptocurrencyService.getCryptocurrency("TON"));
 
-        cryptoHoldingRepository.saveAll(List.of(cryptoHolding, cryptoHolding2, cryptoHolding3, cryptoHolding4, cryptoHolding5));
+        CryptoHolding cryptoHolding6 = new CryptoHolding(0.0, "Usd-coin", "USDC", wallet);
+        cryptoHolding6.setCryptocurrency(cryptocurrencyService.getCryptocurrency("USDC"));
+
+        cryptoHoldingRepository.saveAll(List.of(cryptoHolding, cryptoHolding2, cryptoHolding3, cryptoHolding4, cryptoHolding5, cryptoHolding6));
     }
 
     private String generateWalletAddress() {

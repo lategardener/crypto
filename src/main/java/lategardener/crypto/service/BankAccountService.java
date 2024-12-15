@@ -18,16 +18,20 @@ public class BankAccountService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
+    // Banks address
     private static final List<String> FRENCH_BANKS = List.of(
             "BNP Paribas", "Société Générale", "Crédit Agricole",
             "Caisse d'Épargne", "Crédit Mutuel", "La Banque Postale",
             "Banque Populaire", "HSBC France", "LCL"
     );
 
+    // Type of bank card
     private static final List<String> PAYMENT_NETWORKS = List.of("Visa", "Mastercard");
 
+    // Faker to generate random values
     private final Faker faker = new Faker();
 
+    // Create user bank account
     public void createBankAccountForUser(User user) {
         BankAccount bankAccount = new BankAccount();
         Random random = new Random();
@@ -67,10 +71,12 @@ public class BankAccountService {
     }
 
 
+    // Return all user's bank account
     public List<BankAccount> allUserBankAccount(Long userId){
         return bankAccountRepository.allUserBankAccount(userId);
     }
 
+    // Update user's balance
     public void updateBalance(Long bank_id, Double newBalance){
         Optional<BankAccount> bankAccount = bankAccountRepository.findById(bank_id);
         if (bankAccount.isPresent()){

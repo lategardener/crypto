@@ -3,159 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <title>HomePage</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet"/>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/css/homePage.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/homePage.css">
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <!-- Container wrapper -->
-        <div class="container-fluid">
-            <!-- Toggle button -->
-            <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+        <!-- Toggle button -->
+        <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
 
-            <!-- Collapsible wrapper -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Navbar brand -->
-                <a class="navbar-brand mt-2 mt-lg-0" href="#">
-                    <img src="/img/logo-transparent-svg.svg" height="75" alt="MDB Logo" loading="lazy"/>
-                </a>
-                <!-- Left links -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item item1">
-                        <a class="nav-link" href="/user/signIn">
-                            <button type="button" class="btn btn-outline-warning" data-mdb-ripple-init data-mdb-ripple-color="dark">Trade</button>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/signIn">
-                            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init data-mdb-ripple-color="dark">Sign in</button>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/signUp">
-                            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init data-mdb-ripple-color="dark">Sign up</button>
-                        </a>
-                    </li>
-                </ul>
-                <!-- Left links -->
-            </div>
-        </div>
-        <!-- Container wrapper -->
-    </nav>
-
-    <!-- Attractive image and headline   -->
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-4 d-flex flex-column justify-content-center align-items-start h-100">
-            <h1>The future of cryptocurrencies is here.</h1>
-            <p class="appeal">Buy, sell and trade crypto securely with our trusted platform.</p>
-            <a href="/user/signIn" target="_blank">
-                <button type="button" class="btn btn-primary start btn-rounded" data-mdb-ripple-init>Start Trading</button>
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Navbar brand -->
+            <a class="navbar-brand mt-2 mt-lg-0" href="#">
+                <img src="/img/logo-transparent-svg.svg" height="75" alt="MDB Logo" loading="lazy"/>
             </a>
-        </div>
-
-        <div class="col-md-4 d-flex justify-content-center align-items-center">
-            <img id="userImage" src="/img/crypto2.png" alt="crypto_image" class="img-fluid">
+            <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item item1">
+                    <a class="nav-link" href="/user/signIn">
+                        <button type="button" class="btn btn-outline-warning" data-mdb-ripple-init
+                                data-mdb-ripple-color="dark">Trade
+                        </button>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/signIn">
+                        <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init
+                                data-mdb-ripple-color="dark">Sign in
+                        </button>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/signUp">
+                        <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init
+                                data-mdb-ripple-color="dark">Sign up
+                        </button>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
+
+<!-- Attractive image and headline   -->
+<div class="row d-flex justify-content-center">
+    <div class="col-md-4 d-flex flex-column justify-content-center align-items-start h-100">
+        <h1>The future of cryptocurrencies is here.</h1>
+        <p class="appeal">Buy, sell and trade crypto securely with our trusted platform.</p>
+        <a href="/user/signIn" target="_blank">
+            <button type="button" class="btn btn-primary start btn-rounded" data-mdb-ripple-init>Start Trading</button>
+        </a>
+    </div>
+
+    <div class="col-md-4 d-flex justify-content-center align-items-center">
+        <img id="userImage" src="/img/crypto2.png" alt="crypto_image" class="img-fluid">
+    </div>
+</div>
 
 
 <!-- Top cryptocurrencies-->
-    <!-- Displaying the list of cryptocurrencies -->
-    <div class="container my-5">
-        <h2 class="mb-4 text-center">Top Cryptocurrencies</h2>
-        <div class="row">
-            <!-- Boucle Thymeleaf pour afficher chaque crypto -->
-            <div class="container">
-                <div class="row">
-                    <!-- Affichage des 5 premières cryptos -->
-                    <div class="col-md-12" th:each="crypto, iterStat : ${cryptos}" th:if="${iterStat.index < 5}">
-                        <div class="card mb-2" style="max-width: 700px; margin: 10px auto;">
-                            <div class="card-body d-flex align-items-center">
-                                <!-- Logo de la crypto -->
-                                <img th:src="@{'https://cryptologos.cc/logos/' + ${crypto.name.toLowerCase().replace(' ', '-') + '-' + crypto.symbol.toLowerCase() + '-logo.png'}}"
-                                     class="crypto-logo" alt="Logo de la crypto">
+<!-- Displaying the list of cryptocurrencies -->
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Top Cryptocurrencies</h2>
+    <div class="row">
+        <!-- Thymeleaf loop to display each crypto -->
+        <div class="container">
+            <div class="row">
+                <!-- Display of the first 5 cryptos -->
+                <div class="col-md-12" th:each="crypto, iterStat : ${cryptos}" th:if="${iterStat.index < 5}">
+                    <div class="card mb-2" style="max-width: 700px; margin: 10px auto;">
+                        <div class="card-body d-flex align-items-center">
+                            <!-- Crypto logo -->
+                            <img th:src="@{'https://cryptologos.cc/logos/' + ${crypto.name.toLowerCase().replace(' ', '-') + '-' + crypto.symbol.toLowerCase() + '-logo.png'}}"
+                                 class="crypto-logo" alt="Logo de la crypto">
 
-                                <!-- Symbole (en gras) et Nom complet -->
-                                <p class="crypto-symbol mb-1" th:text="${crypto.symbol}">BTC</p>
-                                <p class="crypto-name mb-1" th:text="${crypto.name}">Bitcoin</p>
+                            <!-- Symbol (bold) and Full name -->
+                            <p class="crypto-symbol mb-1" th:text="${crypto.symbol}">BTC</p>
+                            <p class="crypto-name mb-1" th:text="${crypto.name}">Bitcoin</p>
 
-                                <!-- Prix actuel de la crypto -->
-                                <p class="crypto-price mb-1" style="color: black;" th:id="'crypto-price-' + ${crypto.symbol}" th:text="'$' + ${crypto.currentPrice}">0.00</p>
+                            <!-- Crypto current price-->
+                            <p class="crypto-price mb-1" style="color: black;"
+                               th:id="'crypto-price-' + ${crypto.symbol}" th:text="'$' + ${crypto.currentPrice}">
+                                0.00</p>
 
-                                <!-- Variation sur 24h -->
-                                <p class="crypto-change mb-0" th:attr="id='price-change-' + ${crypto.symbol}" th:text="${crypto.priceChangePercent} + '%'">0.00%</p>
-                            </div>
+                            <!-- Variation over 24h -->
+                            <p class="crypto-change mb-0" th:attr="id='price-change-' + ${crypto.symbol}"
+                               th:text="${crypto.priceChangePercent} + '%'">0.00%</p>
                         </div>
                     </div>
-
                 </div>
-            </div>
 
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Highlight advantages of the plateform-->
+<div class="container text-center my-5">
+    <h2 class="mb-4">Empower Your Crypto Journey</h2>
+    <p class="mb-5">Experience seamless and secure trading with our innovative platform,
+        designed to maximize your potential in the ever-evolving world of digital finance.</p>
+    <div class="row">
+        <!-- first colonne -->
+        <div class="col-md-4 mb-4">
+            <div class="image-container">
+                <img src="/img/landing_page/img.png" ss alt="Leverage up to 30x" class="img-fluid custom-img">
+            </div>
+            <h5>Leverage up to 30x</h5>
+        </div>
+        <!-- second colonne -->
+        <div class="col-md-4 mb-4">
+            <div class="image-container">
+                <img src="/img/landing_page/img_1.png" alt="Low-risk liquidity pools" class="img-fluid custom-img">
+            </div>
+            <h5>Low-risk liquidity pools</h5>
+        </div>
+        <!-- third colonne -->
+        <div class="col-md-4 mb-4">
+            <div class="image-container">
+                <img src="/img/landing_page/img_2.png" alt="Super cheap transactions" class="img-fluid custom-img">
+            </div>
+            <h5>Super cheap transactions</h5>
         </div>
     </div>
-
-
-    <!-- Highlight advantages of the plateform-->
-    <div class="container text-center my-5">
-        <h2 class="mb-4">Empower Your Crypto Journey</h2>
-        <p class="mb-5">Experience seamless and secure trading with our innovative platform,
-            designed to maximize your potential in the ever-evolving world of digital finance.</p>
-        <div class="row">
-            <!-- Première colonne -->
-            <div class="col-md-4 mb-4">
-                <div class="image-container">
-                    <img src="/img/landing_page/img.png" ss alt="Leverage up to 30x" class="img-fluid custom-img">
-                </div>
-                <h5>Leverage up to 30x</h5>
+    <div class="row">
+        <!-- Fourth colonne -->
+        <div class="col-md-4 mb-4">
+            <div class="image-container">
+                <img src="/img/landing_page/img_3.png" alt="Utilizes the most liquid AMMs" class="img-fluid custom-img">
             </div>
-            <!-- Deuxième colonne -->
-            <div class="col-md-4 mb-4">
-                <div class="image-container">
-                    <img src="/img/landing_page/img_1.png" alt="Low-risk liquidity pools" class="img-fluid custom-img">
-                </div>
-                <h5>Low-risk liquidity pools</h5>
-            </div>
-            <!-- Troisième colonne -->
-            <div class="col-md-4 mb-4">
-                <div class="image-container">
-                    <img src="/img/landing_page/img_2.png" alt="Super cheap transactions" class="img-fluid custom-img">
-                </div>
-                <h5>Super cheap transactions</h5>
-            </div>
+            <h5>Utilizes the most liquid AMMs</h5>
         </div>
-        <div class="row">
-            <!-- Quatrième colonne -->
-            <div class="col-md-4 mb-4">
-                <div class="image-container">
-                    <img src="/img/landing_page/img_3.png" alt="Utilizes the most liquid AMMs" class="img-fluid custom-img">
-                </div>
-                <h5>Utilizes the most liquid AMMs</h5>
+        <!-- fifth colonne -->
+        <div class="col-md-4 mb-4">
+            <div class="image-container">
+                <img src="/img/landing_page/img_4.png" alt="Permissionless trading" class="img-fluid custom-img">
             </div>
-            <!-- Cinquième colonne -->
-            <div class="col-md-4 mb-4">
-                <div class="image-container">
-                    <img src="/img/landing_page/img_4.png" alt="Permissionless trading" class="img-fluid custom-img">
-                </div>
-                <h5>Permissionless trading</h5>
+            <h5>Permissionless trading</h5>
+        </div>
+        <!-- sixth colonne -->
+        <div class="col-md-4 mb-4">
+            <div class="image-container">
+                <img src="/img/landing_page/img_5.png" alt="Fully composable" class="img-fluid custom-img">
             </div>
-            <!-- Sixième colonne -->
-            <div class="col-md-4 mb-4">
-                <div class="image-container">
-                    <img src="/img/landing_page/img_5.png" alt="Fully composable" class="img-fluid custom-img">
-                </div>
-                <h5>Fully composable</h5>
-            </div>
+            <h5>Fully composable</h5>
         </div>
     </div>
-
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>

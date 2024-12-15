@@ -7,7 +7,6 @@ function updatePriceChanges() {
             if (!response.ok) {
                 throw new Error('Error updating prices');
             }
-            console.log('Prices updated');
         })
         .then(() => {
             // Second, update the price changes
@@ -19,7 +18,6 @@ function updatePriceChanges() {
             if (!response.ok) {
                 throw new Error('Error updating price changes');
             }
-            console.log('Price changes updated');
         })
         .then(() => {
             // After updating prices and changes, fetch all cryptocurrencies
@@ -32,7 +30,6 @@ function updatePriceChanges() {
             return response.json(); // We expect a JSON response here
         })
         .then(data => {
-            console.log('Updated data:', data);
             data.forEach(crypto => {
                 // Format values to 2 decimal places
                 const formattedPrice = parseFloat(crypto.currentPrice).toFixed(2);
@@ -62,5 +59,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePriceChanges();
 
     // Call every 1 second
-    setInterval(updatePriceChanges, 1000);
+    setInterval(updatePriceChanges, 1100);
 });

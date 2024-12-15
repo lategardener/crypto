@@ -1,0 +1,7 @@
+2024-12-15 11:06:17.224206+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLTimeoutException: Dépassement du temps lors du vérrouillage de la table "CRYPTOCURRENCY"
+Timeout trying to lock table "CRYPTOCURRENCY"; SQL statement:
+update cryptocurrency set created_at=?,current_price=?,market_cap=?,name=?,price_change_percent=?,symbol=? where id=? [50200-224]
+2024-12-15 11:06:17.267223+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: L'objet est déjà fermé
+The object is already closed [90007-224]

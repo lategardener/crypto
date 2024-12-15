@@ -15,12 +15,14 @@ public class WalletController {
     @Autowired
     private WalletService walletService;
 
+    // Return a user's wallet by its id
     @GetMapping(path = "/api/wallet/{walletId}")
     @ResponseBody
     public Wallet getAllCryptocurrenciesInfo(@PathVariable ("walletId") Long walletId){
         return walletService.getWallet(walletId);
     }
 
+    // Return a wallet's address
     @GetMapping(path = "/api/walletAddress/")
     @ResponseBody
     public Wallet getWalletByAddress(@RequestParam String address){

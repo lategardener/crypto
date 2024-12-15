@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CryptocurrencyRepository extends JpaRepository<Cryptocurrency, Long> {
+
     @Query(value = "select * from cryptocurrency where symbol = ?1", nativeQuery = true)
     Optional<Cryptocurrency>  findBySymbol(String symbol);
 

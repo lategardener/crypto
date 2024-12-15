@@ -33,25 +33,11 @@ public class WalletService {
         wallet.setUser(user);
         walletRepository.save(wallet);
 
-        CryptoHolding cryptoHolding = new CryptoHolding(0.022, "Bitcoin", "BTC", wallet);
-        cryptoHolding.setCryptocurrency(cryptocurrencyService.getCryptocurrency("BTC"));
 
-        CryptoHolding cryptoHolding2 = new CryptoHolding(2.41, "Ethereum", "ETH", wallet);
-        cryptoHolding2.setCryptocurrency(cryptocurrencyService.getCryptocurrency("ETH"));
+        CryptoHolding cryptoHolding = new CryptoHolding(15.0, "Usd-coin", "USDC", wallet);
+        cryptoHolding.setCryptocurrency(cryptocurrencyService.getCryptocurrency("USDC"));
 
-        CryptoHolding cryptoHolding3 = new CryptoHolding(7.36, "BNB", "BNB", wallet);
-        cryptoHolding3.setCryptocurrency(cryptocurrencyService.getCryptocurrency("BNB"));
-
-        CryptoHolding cryptoHolding4 = new CryptoHolding(8.36, "Cardano", "ADA", wallet);
-        cryptoHolding4.setCryptocurrency(cryptocurrencyService.getCryptocurrency("ADA"));
-
-        CryptoHolding cryptoHolding5 = new CryptoHolding(25.36, "Toncoin", "TON", wallet);
-        cryptoHolding5.setCryptocurrency(cryptocurrencyService.getCryptocurrency("TON"));
-
-        CryptoHolding cryptoHolding6 = new CryptoHolding(0.0, "Usd-coin", "USDC", wallet);
-        cryptoHolding6.setCryptocurrency(cryptocurrencyService.getCryptocurrency("USDC"));
-
-        cryptoHoldingRepository.saveAll(List.of(cryptoHolding, cryptoHolding2, cryptoHolding3, cryptoHolding4, cryptoHolding5, cryptoHolding6));
+        cryptoHoldingRepository.save(cryptoHolding);
     }
 
     private String generateWalletAddress() {

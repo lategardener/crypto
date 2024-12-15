@@ -127,15 +127,18 @@ public class UserController {
 
     // user dashboard page
     @GetMapping(path = "/dashboard")
-    public String dashBoard(HttpSession session, Model model) {
+        public String dashBoard(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser != null) {
+
             // Current user
             model.addAttribute("user", currentUser);
+
             // Default wallet of this current user (which contains the list of his cryptos)
             Wallet defaultWallet = walletService.getUserDefaultWallet(currentUser.getId());
             model.addAttribute("defaultWallet", defaultWallet);
             model.addAttribute("profile", profileService.getprofile(currentUser.getId()));
+            session.setAttribute("wallet", defaultWallet);
 
             // Trier les cryptos disponible par prix décroissant et prendre les 4 premières
             List<Cryptocurrency> cryptocurrenciesSortedByPrice = cryptocurrencyService.getAllCryptoccurencies()

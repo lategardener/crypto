@@ -13,8 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
 </head>
 <body>
 <div class="container-fluid">
@@ -28,32 +26,32 @@
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="/user/dashboard">
-                            <i class="bi bi-house-door me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
+                            <i class="bi bi-house-door me-3"></i> <!-- Icon with spacing between icon and text -->
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="#">
-                            <i class="bi bi-graph-up me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
+                            <i class="bi bi-graph-up me-3"></i> <!-- Icon with spacing between icon and text -->
                             <span>Portfolio</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="#">
-                            <i class="bi bi-card-checklist me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
-                            <span>Orders</span>
+                        <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="/crypto/allCryptosPage">
+                            <i class="bi bi-card-checklist me-3"></i> <!-- Icon with spacing between icon and text -->
+                            <span>Cryptocurrencies</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="#">
-                            <i class="bi bi-wallet2 me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
+                            <i class="bi bi-wallet2 me-3"></i> <!-- Icon with spacing between icon and text -->
                             <span>Wallet</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-to-go d-flex align-items-center text-black fw-bold" href="#">
-                            <i class="bi bi-person-plus me-3"></i> <!-- Icône avec un espacement entre l'icône et le texte -->
-                            <span>Referral</span>
+                            <i class="bi bi-person-plus me-3"></i> <!-- Icon with spacing between icon and text -->
+                            <span>Payment Method</span>
                         </a>
                     </li>
                 </ul>
@@ -62,10 +60,10 @@
 
         <!-- Main Content Section -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <!-- Conteneur flex pour aligner la barre de recherche à gauche et les autres éléments à droite -->
+            <!-- Flex container to align the search bar to the left and other elements to the right -->
             <div class="d-flex justify-content-between align-items-center mt-2">
 
-                <!-- Conteneur des éléments à droite -->
+                <!-- Container for right-side elements -->
                 <div class="d-flex justify-content-end align-items-center">
 
                     <!-- Avatar -->
@@ -75,13 +73,12 @@
                         </a>
                     </div>
 
-                    <!-- Prénom et Nom -->
+                    <!-- First and Last Name -->
                     <div class="ms-3 fw-light" style="font-size: 14px;">
-                        <span th:text="${user.getLastName()} + ' ' + ${user.getFirstName()}"></span> <!-- Prénom et Nom -->
+                        <span th:text="${user.getLastName()} + ' ' + ${user.getFirstName()}"></span> <!-- First and Last Name -->
                     </div>
                 </div>
             </div>
-
 
             <!-- Left column: Crypto selection form -->
             <div class="container my-4">
@@ -89,42 +86,40 @@
                     <div class="box-crypto card card2_ p-4" style="box-shadow: 0px 0px 20px 5px #edebeb !important;">
                         <h4 class="mb-3 text-center" style="color: #333333">Send Cryptocurrency</h4>
                         <form>
-                            <!-- Bloc pour afficher la crypto sélectionnée -->
+                            <!-- Block to display the selected cryptocurrency -->
                             <div class="form-group mb-3">
                                 <label for="cryptoSelect">Select Cryptocurrency</label>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="cryptoSelect" data-bs-toggle="dropdown" aria-expanded="false">
                                         Select Cryptocurrency
                                     </button>
-                                    <div class="dropdown-menu w-100" aria-labelledby="cryptoSelect">
-                                        <!-- Liste des cryptos dynamiques -->
+                                    <div class="dropdown-menu w-100" style="width: 100%; padding: 0; max-height: 200px; overflow-y: auto;" aria-labelledby="cryptoSelect">
+                                        <!-- Dynamic list of cryptos -->
                                         <th:block th:each="crypto : ${userCryptos}">
                                             <a class="dropdown-item d-flex align-items-center" href="#"
                                                th:data-crypto="${crypto.getSymbol()}"
                                                th:data-amount="${crypto.getAmount()}">
-                                                <!-- Logo de la crypto -->
+                                                <!-- Crypto logo -->
                                                 <img th:src="@{'https://cryptologos.cc/logos/' + ${crypto.name.toLowerCase().replace(' ', '-') + '-' + crypto.symbol.toLowerCase() + '-logo.png'}}"
                                                      alt="Crypto Logo"
                                                      style="width: 20px; height: 20px; margin-right: 10px;">
-                                                <!-- Nom et symbole -->
+                                                <!-- Name and symbol -->
                                                 <span th:text="${crypto.name} + ' (' + ${crypto.symbol} + ')'"></span>
                                             </a>
                                         </th:block>
                                     </div>
-
                                 </div>
                                 <div class="mt-2" id="selectedCrypto" style="font-weight: bold; color: #007bff;"></div>
                             </div>
 
-                            <!-- Bloc pour l'entrée de la quantité -->
+                            <!-- Block for entering the amount -->
                             <div class="form-group mb-3">
                                 <label for="cryptoAmount" style="font-weight: bold; color: #007bff;">Amount to send</label>
                                 <input type="text" id="cryptoAmount" class="form-control" placeholder="Enter amount"
                                        maxlength="15" oninput="validateAmount(this)" />
                             </div>
 
-
-                            <!-- Bloc pour afficher le prix -->
+                            <!-- Block to display the recipient's address -->
                             <div class="form-group mb-3">
                                 <label for="calculatedPrice" style="font-weight: bold; color: #007bff;">Recipient</label>
                                 <input type="text" id="calculatedPrice" class="form-control" placeholder="Enter recipient wallet address" maxlength="15" />
@@ -132,7 +127,6 @@
                                     <i class="fa-solid fa-triangle-exclamation"></i> Make sure you have entered a valid address. Otherwise, your cryptocurrencies will be lost.
                                 </div>
                             </div>
-
 
                             <button type="button" id="submitSendBtn" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#confirmModal" disabled>Send Now</button>
                         </form>
@@ -143,13 +137,11 @@
     </div>
 </div>
 
-
-<!-- Passer les données du backend au frontend -->
+<!-- Pass data from backend to frontend -->
 <script th:inline="javascript">
     /*<![CDATA[*/
     const userId = /*[[${user.id}]]*/ 0;
     const walletId = /*[[${defaultWallet.id}]]*/ 0;
-
     /*]]>*/
 </script>
 

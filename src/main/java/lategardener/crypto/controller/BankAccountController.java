@@ -21,12 +21,14 @@ public class BankAccountController {
     private BankAccountService bankAccountService;
 
 
+    // Return all user's bank accounts
     @GetMapping(path = "/allBankAccounts/{user_id}")
     @ResponseBody
     public List<BankAccount> getAllUserAccounts(@PathVariable ("user_id") Long user_id){
         return bankAccountService.allUserBankAccount(user_id);
     }
 
+    // Update user bank balance
     @PutMapping(path = "/updateBalance/{bank_id}")
     @ResponseBody
     public void getAllUserAccounts(@PathVariable ("bank_id") Long bank_id, @RequestBody Map<String, Object> requestData) {
@@ -34,6 +36,7 @@ public class BankAccountController {
         bankAccountService.updateBalance(bank_id, newBalance);
     }
 
+    // Convert a value in double
     private Double parseToDouble(Object value) {
         if (value instanceof Double) {
             return (Double) value;  // Si c'est déjà un Double, on le retourne tel quel

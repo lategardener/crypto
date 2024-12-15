@@ -295,7 +295,32 @@ th, td {
 }
 
 .transaction-type-exchange {
-    color: blue !important;
+    color: blue !important; /* Bleu pour Exchange */
+    font-weight: bold !important;
+}
+
+.transaction-type-sell {
+    color: red !important;/* Rouge pour Sell */
+    font-weight: bold !important;
+}
+
+.transaction-type-withdraw {
+    color: #54059d !important; /* Violet pour Withdraw */
+    font-weight: bold !important;
+}
+
+.transaction-type-send {
+    color: #e3970c !important; /* Orange pour Send */
+    font-weight: bold !important;
+}
+
+.transaction-type-receive {
+    color: #26b99e !important; /* Orange pour Send */
+    font-weight: bold !important;
+}
+
+.transaction-type-purchase {
+    color: #13a2bb !important; /* Orange pour Send */
     font-weight: bold !important;
 }
 

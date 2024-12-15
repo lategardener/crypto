@@ -12,8 +12,8 @@ public class JacksonConfig {
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());  // Enregistre le module JavaTime
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // Utiliser un format ISO pour les dates
+        objectMapper.registerModule(new JavaTimeModule());  // Registers the JavaTime module
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // Use ISO format for dates
         return objectMapper;
     }
 }

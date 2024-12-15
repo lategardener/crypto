@@ -24,6 +24,7 @@ public class CryptoccurencyConfig {
     CommandLineRunner commandLineRunner(CryptocurrencyService cryptocurrencyService){
         return args -> {
 
+            // Available cryptocurrencies
             if (cryptocurrencyService.getCryptocurrency("BTC") == null){
                 cryptocurrencyService.addCrypto("BTCUSDT");
                 cryptocurrencyService.addCrypto("TONUSDT");
@@ -32,6 +33,11 @@ public class CryptoccurencyConfig {
                 cryptocurrencyService.addCrypto("ADAUSDT");
                 cryptocurrencyService.addCrypto("SOLUSDT");
                 cryptocurrencyService.addCrypto("USDCUSDT");
+                cryptocurrencyService.addCrypto("ATOMUSDT");
+                cryptocurrencyService.addCrypto("XRPUSDT");
+                cryptocurrencyService.addCrypto("LTCUSDT");
+                cryptocurrencyService.addCrypto("TRXUSDT");
+                cryptocurrencyService.addCrypto("PEPEUSDT");
             }
         };
     }

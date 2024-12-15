@@ -283,7 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fonction pour mettre à jour la valeur totale affichée
     function updateTotalValueDisplay(totalValue) {
         const totalValueElement = document.getElementById('totalValue');
-        console.log(totalValue);
         totalValueElement.textContent = totalValue.toFixed(2) + " USD";
 
         // Vérification de l'augmentation ou de la diminution
@@ -473,18 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Afficher "Transaction en cours" pendant 3 secondes
-        await Swal.fire({
-            title: 'Transaction in Progress',
-            text: 'Please wait...',
-            icon: 'info',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            timer: 3000,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
 
         try {
             // Mise à jour des quantités dans le backend
@@ -506,10 +493,30 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('cryptoBalanceSend').textContent = `Balance: ${formatTo8Digits(sendBalance - sendAmount)} ${sendSymbol}`;
             document.getElementById('cryptoBalanceGet').textContent = `Balance: ${formatTo8Digits(getBalance + receiveAmount)} ${getSymbol}`;
 
-            // Réinitialiser les champs
-            // Enregistrer la transaction dans le backend
+            // Afficher "Transaction en cours" pendant 3 secondes
+            await Swal.fire({
+                title: 'Transaction in Progress',
+                text: 'Please wait...',
+                icon: 'info',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                timer: 1000,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
 
+
+            document.getElementById('sendAmount').value = '';
+            document.getElementById('getAmount').value = '';
+
+            Swal.fire({
+                title: 'Success!',
+                text: 'Exchange successfully executed.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
 
             const transactionData = {
                 status: "Completed",
@@ -520,27 +527,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 sendAmount: parseFloat(sendAmount),
                 getAmount: parseFloat(receiveAmount),
             };
+
+
             await fetch('/transactions/create', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(transactionData),
-            });
-
-            console.log(transactionData);
-
-
-            document.getElementById('sendAmount').value = '';
-            document.getElementById('getAmount').value = '';
-
-            console.log("Transaction enregistrée avec succès");
-
-            Swal.fire({
-                title: 'Success!',
-                text: 'Exchange successfully executed.',
-                icon: 'success',
-                confirmButtonText: 'OK'
             });
 
         } catch (error) {
@@ -591,8 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Récupérer le portefeuille en tant qu'objet
             const wallet = await response.json();
-            console.log(wallet);
-            console.log(wallet.cryptoHoldings);
+
 
             // Assurez-vous que le portefeuille contient la propriété "cryptos" (ou ce que vous utilisez dans votre réponse)
             return wallet.cryptoHoldings;

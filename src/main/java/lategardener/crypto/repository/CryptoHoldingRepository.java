@@ -18,6 +18,9 @@ public interface CryptoHoldingRepository extends JpaRepository<CryptoHolding, Lo
     @Query(value = " select * from crypto_holding h where h.wallet_id=?1 and h.symbol not like 'USDC' ", nativeQuery = true)
     List<CryptoHolding> findAllExchangeableCryptos(Long walletId);
 
+    @Query(value = " select * from crypto_holding h where h.wallet_id=?1 ", nativeQuery = true)
+    List<CryptoHolding> findCryptos(Long walletId);
+
 
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,15 +32,13 @@ public class CryptocurrencyService {
     @Autowired
     private CryptocurrencyRepository cryptocurrencyRepository;
 
-
     @Autowired
     private ObjectMapper objectMapper;
 
     @Value("${binance.api.key}")
     private String apiKey;
 
-
-
+    // Get a cryptocurrency by its symbol
     public Cryptocurrency getCryptocurrency(String symbol){
         Optional<Cryptocurrency> optionalCryptocurrency = cryptocurrencyRepository.findBySymbol(symbol);
         if (optionalCryptocurrency.isPresent()){
@@ -48,6 +47,7 @@ public class CryptocurrencyService {
         return null;
     }
 
+    // Return all valid cryptocurrency symbols
     public List<String> getAllValidSymbols() {
         String url = "https://api.binance.com/api/v3/exchangeInfo";
         ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
@@ -58,6 +58,7 @@ public class CryptocurrencyService {
                 .collect(Collectors.toList());
     }
 
+    // Get cryptocurrency details
     public Map<String, Object> getCryptoDetails(String symbol) {
         String url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + symbol;
 
@@ -67,9 +68,10 @@ public class CryptocurrencyService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
-        return response.getBody(); // Retourne toutes les infos
+        return response.getBody(); // Return all details
     }
 
+    // Return the current price of a cryptocurrency
     public double getCurrentPrice(String symbol) {
         String url = "https://api.binance.com/api/v3/ticker/price?symbol=" + symbol;
 
@@ -82,6 +84,7 @@ public class CryptocurrencyService {
         return Double.parseDouble(response.getBody().get("price").toString());
     }
 
+    // Load cryptocurrency names from a JSON file
     public Map<String, String> loadCryptoNames() throws IOException {
         ClassPathResource resource = new ClassPathResource("static/data/cryptocurrencies.json");
         byte[] data = FileCopyUtils.copyToByteArray(resource.getInputStream());
@@ -89,48 +92,47 @@ public class CryptocurrencyService {
         return objectMapper.readValue(json, Map.class);
     }
 
-    // Méthode pour ajouter une crypto en utilisant son symbole
+    // Add a cryptocurrency
     public void addCrypto(String symbol) {
         Optional<Cryptocurrency> existingCrypto = cryptocurrencyRepository.findBySymbol(symbol);
         if (!existingCrypto.isPresent()) {
             Map<String, Object> cryptoDetails = getCryptoDetails(symbol);
 
-            // Vérifiez la présence des clés avant d'y accéder
+            // Check the presence of keys before accessing them
             if (cryptoDetails != null) {
                 Cryptocurrency crypto = new Cryptocurrency();
 
-                // Extraire le symbole sans "USDT"
+                // Extract the symbol without "USDT"
                 String pureSymbol = symbol.replace("USDT", "").toUpperCase();
 
-                // Utilisation de "lastPrice" pour le prix
+                // Use "lastPrice" for the price
                 Object lastPrice = cryptoDetails.get("lastPrice");
                 if (lastPrice != null) {
                     crypto.setCurrentPrice(Double.parseDouble(lastPrice.toString()));
                 }
 
-                // Utilisation de "marketCap" pour la capitalisation
-                Object marketCap = cryptoDetails.get("marketCap");
-                if (marketCap != null) {
-                    crypto.setMarketCap(Double.parseDouble(marketCap.toString()));
+                // Calculate market capitalization (Market Cap)
+                Object volume = cryptoDetails.get("volume");
+                if (lastPrice != null && volume != null) {
+                    // Market Cap = Last Price * Volume
+                    double marketCap = Double.parseDouble(lastPrice.toString()) * Double.parseDouble(volume.toString());
+                    crypto.setMarketCap(marketCap);
                 }
 
-                // Récupérer le nom de la crypto depuis le fichier JSON
+                // Retrieve the cryptocurrency name from the JSON file
                 try {
                     Map<String, String> cryptoNames = loadCryptoNames();
-                    System.out.println('1');
-                    String cryptoName = cryptoNames.get(pureSymbol); // Obtenir le nom correspondant au symbole
+                    String cryptoName = cryptoNames.get(pureSymbol); // Get the name corresponding to the symbol
                     if (cryptoName != null) {
-                        System.out.println('2');
-                        crypto.setName(cryptoName); // Définir le nom de la crypto
+                        crypto.setName(cryptoName); // Set the cryptocurrency name
                     } else {
-                        crypto.setName("Unknown"); // Si le nom n'est pas trouvé
-                        System.out.println('3');
+                        crypto.setName("Unknown"); // If name is not found
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                crypto.setSymbol(pureSymbol); // Enregistrer le symbole pur
+                crypto.setSymbol(pureSymbol); // Save the pure symbol
 
                 Object priceChangePercent = cryptoDetails.get("priceChangePercent");
                 if (priceChangePercent != null) {
@@ -143,52 +145,69 @@ public class CryptocurrencyService {
         }
     }
 
+    // Update the price of a cryptocurrency
     public void updateCryptoPrice(String symbol) {
         Optional<Cryptocurrency> existingCrypto = cryptocurrencyRepository.findBySymbol(symbol);
         if (existingCrypto.isPresent()) {
             if (!symbol.endsWith("USDT")) {
-                symbol = symbol + "USDT"; // Ajouter "USDT" à la fin du symbole
+                symbol = symbol + "USDT"; // Add "USDT" to the symbol
             }
-            double currentPrice = getCurrentPrice(symbol); // Cette méthode récupère le prix de l'API Binance, par exemple
+            double currentPrice = getCurrentPrice(symbol); // This method retrieves the price from the Binance API
             Cryptocurrency crypto = existingCrypto.get();
-            crypto.setCurrentPrice(currentPrice); // Mettre à jour le prix de la cryptomonnaie
-            cryptocurrencyRepository.save(crypto); // Sauvegarder la cryptomonnaie mise à jour dans la base de données
+            crypto.setCurrentPrice(currentPrice); // Update the cryptocurrency price
+            cryptocurrencyRepository.save(crypto); // Save the updated cryptocurrency in the database
         } else {
-            System.out.println("Cryptocurrency non trouvée pour le symbole : " + symbol);
+            System.out.println("Cryptocurrency not found for the symbol: " + symbol);
         }
     }
 
-
+    // Return all cryptocurrencies
     public List<Cryptocurrency> getAllCryptoccurencies(){
-        return cryptocurrencyRepository.findAll();
+        List<Cryptocurrency> cryptocurrencies = cryptocurrencyRepository.findAll();
+        cryptocurrencies.sort(Comparator.comparing(Cryptocurrency::getName));
+        return cryptocurrencies;
     }
 
+    // Return all exchangeable cryptocurrencies
     public List<Cryptocurrency> getAllExchangeableCryptos(){
-        return cryptocurrencyRepository.findAllExchangeableCryptos();
+        List<Cryptocurrency> cryptocurrencies = cryptocurrencyRepository.findAllExchangeableCryptos();
+        cryptocurrencies.sort(Comparator.comparing(Cryptocurrency::getName));
+        return cryptocurrencies;
     }
 
+    // Update cryptocurrency price change percentage
     public void updatePriceChangePercent() {
-        // Récupérer toutes les cryptos stockées
+        // Retrieve all stored cryptocurrencies
         List<Cryptocurrency> allCryptos = cryptocurrencyRepository.findAll();
 
         for (Cryptocurrency crypto : allCryptos) {
-            // Appeler l'API Binance pour chaque crypto pour obtenir les détails
+            // Call the Binance API for each crypto to get the details
             Map<String, Object> cryptoDetails = getCryptoDetails(crypto.getSymbol() + "USDT");
 
             if (cryptoDetails != null && cryptoDetails.containsKey("priceChangePercent")) {
-                // Mettre à jour la variation de prix en pourcentage
+                // Update the price change percentage
                 String priceChangePercent = cryptoDetails.get("priceChangePercent").toString();
                 crypto.setPriceChangePercent(Double.parseDouble(priceChangePercent));
-                cryptocurrencyRepository.save(crypto); // Enregistrer la mise à jour dans la base de données
+
+                // Market Cap update
+                Object volume = cryptoDetails.get("volume");
+                Object lastPrice = cryptoDetails.get("lastPrice");
+                double marketCap = 0.0;
+                if (lastPrice != null && volume != null) {
+                    // Market Cap = Last Price * Volume
+                    marketCap = Double.parseDouble(lastPrice.toString()) * Double.parseDouble(volume.toString());
+                    crypto.setMarketCap(marketCap);
+                }
+                cryptocurrencyRepository.save(crypto); // Save the update in the database
             }
         }
     }
 
-
+    // Return the last prices of a cryptocurrency
     public List<Double> getLastPrices(String symbol, int limit) {
         String url = String.format("https://api.binance.com/api/v3/klines?symbol=%s&interval=1m&limit=%d", symbol, limit);
 
-        // Utiliser ParameterizedTypeReference pour le type exact de la réponse
+        // Use ParameterizedTypeReference for the exact type of the response
         ResponseEntity<List<List<Object>>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
@@ -196,10 +215,9 @@ public class CryptocurrencyService {
                 new ParameterizedTypeReference<List<List<Object>>>() {}
         );
 
-        // Extraire uniquement les prix de clôture (5ᵉ élément)
+        // Extract only the closing prices (5th element)
         return response.getBody().stream()
-                .map(entry -> Double.parseDouble(entry.get(4).toString())) // 5ᵉ élément = prix de clôture
+                .map(entry -> Double.parseDouble(entry.get(4).toString())) // 5th element = closing price
                 .collect(Collectors.toList());
     }
-
 }

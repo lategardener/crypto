@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -141,6 +142,34 @@ public class CryptoHoldingController {
             throw new IllegalStateException("User not connected");
         }
         return "cryptoWithdrawPage";
+    }
+
+    @GetMapping("/allOwnedCryptos")
+    public String displayAllCryptosPage(@RequestParam(defaultValue = "0") int page, HttpSession session, Model model) {
+
+        User currentUser = (User) session.getAttribute("currentUser");
+        Wallet defaultWallet = (Wallet) session.getAttribute("wallet");
+        if (currentUser != null && defaultWallet != null) {
+            model.addAttribute("user", currentUser);
+            model.addAttribute("profile", profileService.getprofile(currentUser.getId()));
+
+            int pageSize = 10; // Nombre de cryptos par page
+            List<CryptoHolding> cryptoHoldings = cryptoHoldingService.getCryptos(defaultWallet.getId());
+
+            // Trier les cryptos par nom croissant
+            cryptoHoldings.sort(Comparator.comparing(CryptoHolding::getName));
+
+            // Calcul des sous-listes pour la pagination
+            int start = page * pageSize;
+            int end = Math.min(start + pageSize, cryptoHoldings.size());
+            List<CryptoHolding> paginatedCryptos = cryptoHoldings.subList(start, end);
+
+            model.addAttribute("cryptos", paginatedCryptos);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", (int) Math.ceil((double) cryptoHoldings.size() / pageSize));
+        }
+
+        return "portfolio"; // Assurez-vous que ce nom correspond au nom de votre template
     }
 
 

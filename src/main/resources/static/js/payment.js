@@ -174,11 +174,7 @@ document.getElementById('submitPurchaseBtn').addEventListener('click', async fun
             confirmButtonText: 'OK'
         });
 
-        // Réinitialiser le formulaire
-        cardNumberInput.value = '';
-        cardHolderInput.value = '';
-        expirationInput.value = '';
-        cvvInput.value = '';
+
         amountInput.value = '';
     } catch (error) {
         console.error("Erreur lors du processus d'achat :", error.message);

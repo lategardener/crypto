@@ -25,7 +25,7 @@ LateCrypto est une plateforme de trading qui permet d'acheter, vendre, envoyer, 
 
 - **Interface utilisateur** permettant de :✅
   - Associer ou dissocier graphiquement des relations **1-N** et **N-N**.
-  - Exemple : Ajout/suppression de cryptomonnaies dans un portefeuille.
+  - Exemple : Ajout/suppression de cryptomonnaies dans un portefeuille. ✅
 
 ### **1.3 Logique métier**
 - L’application inclut une logique métier avancée, au-delà des simples opérations CRUD.
@@ -46,7 +46,7 @@ LateCrypto est une plateforme de trading qui permet d'acheter, vendre, envoyer, 
   - [ ] **Insérer** une entité en base de données (BDD). (ajout d'un nouvel utilisateur, d'une nouvelle cryptomonnaie, etc.)
   - [ ] **Mettre à jour** une entité existante en BDD.   (mise à jour de prix, de solde, des capitalisation boursières etc..)
   - [ ] **Supprimer** une entité en BDD. (utilisé pour des test avec postman, mais n'a pas été mis en application concrètement)
-  - [ ] **Chercher** une entité dans la BDD. (recherche d'un user déja inscrit, d'une crypto, etc.)
+  - [ ] **Chercher** une entité dans la BDD. (La fonctionnalité de recherche d'éléments n'a pas été implémentée. Mais pour pallier cela, les cryptomonnaies sont affichées par ordre décroissant pour simplifier un peu la recherche)
 
 ### **2.2 Liaison des entités** ✅
 - [ ] **Lier deux entités** en BDD (exemple : associer un portefeuille à un utilisateur).
@@ -73,8 +73,7 @@ LateCrypto est une plateforme de trading qui permet d'acheter, vendre, envoyer, 
 ---
 
 ### **4.1 Design et esthétique**
-- [ ] L’application utilise un framework CSS : Oui, utilisation de Bootsrap et MDBootstrap.
-- [ ] L’interface utilisateur est agréable et intuitive.
+- [ ] L’application est jolie et utilise un framework CSS : Oui, utilisation de Bootsrap et MDBootstrap. Il y'a plein de couleurs, de graphiques. L'interface utilisateur est agréable.✅
 
 
 
